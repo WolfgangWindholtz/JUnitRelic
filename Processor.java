@@ -55,12 +55,18 @@ public abstract class Processor extends LinearOpMode {
     ElapsedTime runtime = new ElapsedTime();
     public final static double DEFAULT_POWER = .7;
     public final static int TICKSPERROTATION = 1120;
-    static final double P_TURN_COEFF = .025;
+    static final double P_TURN_COEFF = .015;
     public final static int DIAMETEROFWHEEL = 4;
     static final double TURN_SPEED = 0.4;
     static final double DRIVE_SPEED = 0.6;
     static final double HEADING_THRESHOLD = 2;
+    static final double OMNI_WHEEL_CIRCUMFERENCE = 4 * Math.PI;
 
+    static final double COUNTS_PER_MOTOR_REV = 1120;
+    static final double DRIVE_GEAR_REDUCTION = 1.286;     // This is < 1.0 if geared UP
+    static final double WHEEL_DIAMETER_INCHES = 4.0;
+    static final double COUNTS_PER_INCH = ((COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
+            (WHEEL_DIAMETER_INCHES * 3.1415));
 
     public void checkVu() {
 
@@ -178,12 +184,13 @@ public abstract class Processor extends LinearOpMode {
         return speed;
     }
 
-    private void recordTelemetry(double target, double angleWanted, Orientation ref, double speed) {
+    public void recordTelemetry(double target, double angleWanted, Orientation ref, double speed) {
         telemetry.addData("first angle",ref.firstAngle);
         telemetry.addData("second angle",ref.secondAngle);
         telemetry.addData("third angle",ref.thirdAngle);
         telemetry.addData("target",target);
         telemetry.addData("speed ",speed);
+        telemetry.addData("error", angleWanted - ref.firstAngle);
         telemetry.addData("angleWanted", angleWanted);
 
         telemetry.update();
@@ -223,8 +230,69 @@ public abstract class Processor extends LinearOpMode {
         }
     }
 
-    // THIS SHOULD BE A STATE
+    public void strafeForward(int distance) {
+        double temp = COUNTS_PER_MOTOR_REV * (distance / OMNI_WHEEL_CIRCUMFERENCE);
+        bot.motorLB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        bot.motorRF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        bot.motorLF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        bot.motorRB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
+        while ((bot.motorLB.getCurrentPosition() < temp + 100) && (bot.motorRF.getCurrentPosition() < temp + 100) && (bot.motorLF.getCurrentPosition() < temp + 100) && (bot.motorRB.getCurrentPosition() < temp + 100)) {
+            bot.motorLB.setPower(-0.5);
+            bot.motorRF.setPower(0.5);
+            bot.motorLF.setPower(-0.5);
+            bot.motorRB.setPower(0.5);
+        }
+
+    }
+
+    public void strafeBack(int distance) {
+        double temp = COUNTS_PER_MOTOR_REV * (distance / OMNI_WHEEL_CIRCUMFERENCE);
+        bot.motorLB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        bot.motorRF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        bot.motorLF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        bot.motorRB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        while ((bot.motorLB.getCurrentPosition() < temp + 100) && (bot.motorRF.getCurrentPosition() < temp + 100) && (bot.motorLF.getCurrentPosition() < temp + 100) && (bot.motorRB.getCurrentPosition() < temp + 100)) {
+            bot.motorLB.setPower(0.5);
+            bot.motorRF.setPower(-0.5);
+            bot.motorLF.setPower(0.5);
+            bot.motorRB.setPower(-0.5);
+        }
+
+    }
+
+    public void strafeLeft(int distance) {
+        double temp = COUNTS_PER_MOTOR_REV * (distance / OMNI_WHEEL_CIRCUMFERENCE);
+        bot.motorLB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        bot.motorRF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        bot.motorLF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        bot.motorRB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        while ((bot.motorLB.getCurrentPosition() < temp + 100) && (bot.motorRF.getCurrentPosition() < temp + 100) && (bot.motorLF.getCurrentPosition() < temp + 100) && (bot.motorRB.getCurrentPosition() < temp + 100)) {
+            bot.motorLB.setPower(-0.5);
+            bot.motorRF.setPower(0.5);
+            bot.motorLF.setPower(0.5);
+            bot.motorRB.setPower(-0.5);
+        }
+
+    }
+
+    public void strafeRight(int distance) {
+        double temp = COUNTS_PER_MOTOR_REV * (distance / OMNI_WHEEL_CIRCUMFERENCE);
+        bot.motorLB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        bot.motorRF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        bot.motorLF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        bot.motorRB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        while ((bot.motorLB.getCurrentPosition() < temp + 100) && (bot.motorRF.getCurrentPosition() < temp + 100) && (bot.motorLF.getCurrentPosition() < temp + 100) && (bot.motorRB.getCurrentPosition() < temp + 100)) {
+            bot.motorLB.setPower(0.5);
+            bot.motorRF.setPower(-0.5);
+            bot.motorLF.setPower(-0.5);
+            bot.motorRB.setPower(0.5);
+        }
+
+    }
 
 
 }
