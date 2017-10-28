@@ -9,6 +9,7 @@ import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
@@ -122,21 +123,6 @@ public abstract class Processor extends LinearOpMode {
 
     // SEPERATE STATE LATER IS SCORE STATE
     // PASS IN PARAMETERS THAT WILL TELL HOW TO SCORE
-    public void scoreColumn() {
-
-        if (bot.columnToScore == RelicRecoveryVuMark.UNKNOWN) {
-            return;
-        }
-        if (bot.columnToScore == RelicRecoveryVuMark.CENTER) {
-            score();
-        }
-        if (bot.columnToScore == RelicRecoveryVuMark.LEFT) {
-            score();
-        }
-        if (bot.columnToScore == RelicRecoveryVuMark.RIGHT) {
-            score();
-        }
-    }
 
     public void score() {
         //MOTOR MOTIONS TO SCORE
@@ -292,6 +278,72 @@ public abstract class Processor extends LinearOpMode {
             bot.motorRB.setPower(0.5);
         }
 
+    }
+
+    public void knockJewel(boolean isTeamRed){
+        bot.jewelServo.setPosition(90);
+        int toTurn = checkJewel(isTeamRed,isSensorRed());
+        turn(toTurn);
+        turn(-toTurn);
+    }
+
+    public  int checkJewel(boolean isTeamRed, boolean isSensorRed){
+        if(isTeamRed){
+            if( isTeamRed == isSensorRed){
+                return 15;
+            }
+            else/*isTeamRed != isSensorRed*/{
+                return -15;
+            }
+        }
+        else{
+            if(isTeamRed != isSensorRed){
+                return 15;
+            }
+            else/*isTeamRed != isSensorRed*/{
+                return -15;
+            }
+        }
+    }
+
+    public boolean isSensorRed(){
+        return  bot.jewelSensor.red() > bot.jewelSensor.blue();
+    }
+
+    public void gotoColumn() {
+
+
+        if (bot.columnToScore == RelicRecoveryVuMark.RIGHT) {
+            goPulses(1);
+        }
+        if (bot.columnToScore == RelicRecoveryVuMark.CENTER) {
+            goPulses(2);
+        }
+        if (bot.columnToScore == RelicRecoveryVuMark.LEFT) {
+            goPulses(3);
+        }
+        forward(10);
+
+        while(bot.distanceSensor.getDistance(DistanceUnit.MM)<1000){
+            bot.motorLF.setPower(DRIVE_SPEED);
+            bot.motorRF.setPower(-DRIVE_SPEED);
+            bot.motorRB.setPower(-DRIVE_SPEED);
+            bot.motorLB.setPower(DRIVE_SPEED);
+        }
+    }
+
+    public void goPulses(int numOfCol) {
+        int count = 0;
+        while(count <= numOfCol){
+
+            bot.motorLF.setPower(-DRIVE_SPEED);
+            bot.motorRF.setPower(DRIVE_SPEED);
+            bot.motorRB.setPower(DRIVE_SPEED);
+            bot.motorLB.setPower(-DRIVE_SPEED);
+
+            if (bot.distanceSensor.getDistance(DistanceUnit.MM)>1000)
+                count++;
+        }
     }
 
 

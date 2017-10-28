@@ -20,4 +20,10 @@ public class ProcessorTest extends TestCase {
         double actual = (new MyProcessor()).turning(90, 1, 20);
         assertEquals(0.6, actual);
     }
+    @org.junit.Test
+    public void testcheckJewel(){
+        int actual = (new MyProcessor()).checkJewel(true,true);
+        assertEquals(15, actual);
+
+    }
 }
