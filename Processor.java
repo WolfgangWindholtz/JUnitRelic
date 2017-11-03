@@ -69,6 +69,77 @@ public abstract class Processor extends LinearOpMode {
     static final double COUNTS_PER_INCH = ((COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1415));
 
+    public void encoderDrive(double speed,
+                             double rightFrontInches, double leftFrontInches,double leftBackInches, double rightBackInches,
+                             double timeoutS) {
+        int newLeftFrontTarget;
+        int newRightBackTarget;
+        int newRightFrontTarget;
+        int newLeftBackTarget;
+
+        // Ensure that the opmode is still active
+        if (opModeIsActive()) {
+
+            // Determine new target position, and pass to motor controller
+            newLeftFrontTarget = bot.motorLF.getCurrentPosition() + (int)(leftFrontInches * COUNTS_PER_INCH);
+            newRightFrontTarget = bot.motorRF.getCurrentPosition() + (int)(rightFrontInches * COUNTS_PER_INCH);
+            newRightBackTarget = bot.motorRB.getCurrentPosition() + (int)(rightBackInches * COUNTS_PER_INCH);
+            newLeftBackTarget = bot.motorLB.getCurrentPosition() + (int)(leftBackInches * COUNTS_PER_INCH);
+            bot.motorLF.setTargetPosition(newLeftFrontTarget);
+            bot.motorRF.setTargetPosition(newRightFrontTarget);
+            bot.motorRB.setTargetPosition(newRightBackTarget);
+            bot.motorLB.setTargetPosition(newLeftBackTarget);
+
+            // Turn On RUN_TO_POSITION
+            bot.motorLF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            bot.motorRF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            bot.motorLB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            bot.motorRB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            // reset the timeout time and start motion.
+            runtime.reset();
+            bot.motorLF.setPower(Math.abs(speed));
+            bot.motorRF.setPower(Math.abs(speed));
+            bot.motorLB.setPower(Math.abs(speed));
+            bot.motorRB.setPower(Math.abs(speed));
+
+            // keep looping while we are still active, and there is time left, and both motors are running.
+            // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
+            // its target position, the motion will stop.  This is "safer" in the event that the robot will
+            // always end the motion as soon as possible.
+            // However, if you require that BOTH motors have finished their moves before the robot continues
+            // onto the next step, use (isBusy() || isBusy()) in the loop test.
+            while (opModeIsActive() &&
+                    (runtime.seconds() < timeoutS) &&
+                    (bot.motorLB.isBusy() && bot.motorRB.isBusy()&&bot.motorRF.isBusy()&&bot.motorLF.isBusy())) {
+
+                // Display it for the driver.
+                telemetry.addData("Path1",  "Running to %7d :%7d", newLeftBackTarget,  newLeftFrontTarget,newRightBackTarget,newRightFrontTarget);
+                telemetry.addData("Path2",  "Running at %7d :%7d",
+                        bot.motorLB.getCurrentPosition(),
+                        bot.motorLF.getCurrentPosition(),
+                        bot.motorRB.getCurrentPosition(),
+                        bot.motorRF.getCurrentPosition());
+                telemetry.update();
+            }
+
+            // Stop all motion;
+            bot.motorLB.setPower(0);
+            bot.motorLF.setPower(0);
+            bot.motorRB.setPower(0);
+            bot.motorRF.setPower(0);
+
+
+            // Turn off RUN_TO_POSITION
+            bot.motorLF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            bot.motorRF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            bot.motorRB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            bot.motorLB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+            sleep(250);   // optional pause after each move
+        }
+    }
+
     public void checkVu() {
 
         /* For fun, we also exhibit the navigational pose. In the Relic Recovery game,
@@ -145,17 +216,17 @@ public abstract class Processor extends LinearOpMode {
         double angleWanted = target + heading;
 
         ref = bot.imu.getAngularOrientation();
-        double speed = turning(target, ref.firstAngle, angleWanted);
+        double speed = turning(ref.firstAngle, angleWanted);
         while(speed != 0 ){
             ref = bot.imu.getAngularOrientation();
-            speed = turning(target, ref.firstAngle, angleWanted);
+            speed = turning(ref.firstAngle, angleWanted);
             accelerate(speed);
             recordTelemetry(target, angleWanted, ref, speed);
         }
         accelerate(0);
     }
 
-    double turning(double target, double firstAngle, double angleWanted) {
+    double turning(double firstAngle, double angleWanted) {
         double error;
         double correction;
         double speed;
@@ -163,7 +234,7 @@ public abstract class Processor extends LinearOpMode {
 
         correction = Range.clip( error * P_TURN_COEFF,-1,1);
 
-        if(error <= HEADING_THRESHOLD){
+        if(Math.abs(error) <= HEADING_THRESHOLD){
             return 0;
         }
         else{
@@ -371,75 +442,5 @@ public abstract class Processor extends LinearOpMode {
         }
     }
 
-    public void encoderDrive(double speed,
-                             double rightFrontInches, double leftFrontInches,double leftBackInches, double rightBackInches,
-                             double timeoutS) {
-        int newLeftFrontTarget;
-        int newRightBackTarget;
-        int newRightFrontTarget;
-        int newLeftBackTarget;
-
-        // Ensure that the opmode is still active
-        if (opModeIsActive()) {
-
-            // Determine new target position, and pass to motor controller
-            newLeftFrontTarget = bot.motorLF.getCurrentPosition() + (int)(leftFrontInches * COUNTS_PER_INCH);
-            newRightFrontTarget = bot.motorRF.getCurrentPosition() + (int)(rightFrontInches * COUNTS_PER_INCH);
-            newRightBackTarget = bot.motorRB.getCurrentPosition() + (int)(rightBackInches * COUNTS_PER_INCH);
-            newLeftBackTarget = bot.motorLB.getCurrentPosition() + (int)(leftBackInches * COUNTS_PER_INCH);
-            bot.motorLF.setTargetPosition(newLeftFrontTarget);
-            bot.motorRF.setTargetPosition(newRightFrontTarget);
-            bot.motorRB.setTargetPosition(newRightBackTarget);
-            bot.motorLB.setTargetPosition(newLeftBackTarget);
-
-            // Turn On RUN_TO_POSITION
-            bot.motorLF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            bot.motorRF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            bot.motorLB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            bot.motorRB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-            // reset the timeout time and start motion.
-            runtime.reset();
-            bot.motorLF.setPower(Math.abs(speed));
-            bot.motorRF.setPower(Math.abs(speed));
-            bot.motorLB.setPower(Math.abs(speed));
-            bot.motorRB.setPower(Math.abs(speed));
-
-            // keep looping while we are still active, and there is time left, and both motors are running.
-            // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
-            // its target position, the motion will stop.  This is "safer" in the event that the robot will
-            // always end the motion as soon as possible.
-            // However, if you require that BOTH motors have finished their moves before the robot continues
-            // onto the next step, use (isBusy() || isBusy()) in the loop test.
-            while (opModeIsActive() &&
-                    (runtime.seconds() < timeoutS) &&
-                    (bot.motorLB.isBusy() && bot.motorRB.isBusy()&&bot.motorRF.isBusy()&&bot.motorLF.isBusy())) {
-
-                // Display it for the driver.
-                telemetry.addData("Path1",  "Running to %7d :%7d", newLeftBackTarget,  newLeftFrontTarget,newRightBackTarget,newRightFrontTarget);
-                telemetry.addData("Path2",  "Running at %7d :%7d",
-                        bot.motorLB.getCurrentPosition(),
-                        bot.motorLF.getCurrentPosition(),
-                        bot.motorRB.getCurrentPosition(),
-                        bot.motorRF.getCurrentPosition());
-                telemetry.update();
-            }
-
-            // Stop all motion;
-            bot.motorLB.setPower(0);
-            bot.motorLF.setPower(0);
-            bot.motorRB.setPower(0);
-            bot.motorRF.setPower(0);
-
-
-            // Turn off RUN_TO_POSITION
-            bot.motorLF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            bot.motorRF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            bot.motorRB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            bot.motorLB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-            sleep(250);   // optional pause after each move
-        }
-    }
 
 }
