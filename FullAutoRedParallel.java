@@ -14,13 +14,19 @@ public class FullAutoRedParallel extends Processor{
     @Override
     public void runOpMode() throws InterruptedException {
         bot.init(hardwareMap);
+        checkCol();
         waitForStart();
+        checkCol();
+
         checkVu();
 
         knockJewel(true);
 
         //forward(300);
+        // go in front of the cyrptograph
 
         turn(90);
+
+        gotoColumnLeft();
     }
 }

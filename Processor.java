@@ -56,7 +56,7 @@ public abstract class Processor extends LinearOpMode {
     ElapsedTime runtime = new ElapsedTime();
     public final static double DEFAULT_POWER = .7;
     public final static int TICKSPERROTATION = 1120;
-    static final double P_TURN_COEFF = .015;
+    static final double P_TURN_COEFF = .2;
     public final static int DIAMETEROFWHEEL = 4;
     static final double TURN_SPEED = 0.4;
     static final double DRIVE_SPEED = 0.6;
@@ -104,15 +104,17 @@ public abstract class Processor extends LinearOpMode {
 
     public void checkCol() {
         checkVu();
-        if (bot.vuMark != RelicRecoveryVuMark.UNKNOWN) {
-            telemetry.addData("VuMark", "%s visible", bot.vuMark);
+        while(bot.columnToScore == null) {
+            if (bot.vuMark != RelicRecoveryVuMark.UNKNOWN) {
+                telemetry.addData("VuMark", "%s visible", bot.vuMark);
 
-            bot.columnToScore = bot.vuMark;
-        } else {
-            telemetry.addData("VuMark", "not visible");
+                bot.columnToScore = bot.vuMark;
+            } else {
+                telemetry.addData("VuMark", "not visible");
+            }
+
+            telemetry.update();
         }
-
-        telemetry.update();
     }
 
 
@@ -310,7 +312,7 @@ public abstract class Processor extends LinearOpMode {
         return  bot.jewelSensor.red() > bot.jewelSensor.blue();
     }
 
-    public void gotoColumn() {
+    public void gotoColumnRight() {// the direction approating the cyrpoto box changes depending on the side
 
 
         if (bot.columnToScore == RelicRecoveryVuMark.RIGHT) {
@@ -324,7 +326,7 @@ public abstract class Processor extends LinearOpMode {
         }
         forward(10);
 
-        while(bot.distanceSensor.getDistance(DistanceUnit.MM)<1000){
+        while(bot.distanceSensor.getDistance(DistanceUnit.MM)<100){
             bot.motorLF.setPower(DRIVE_SPEED);
             bot.motorRF.setPower(-DRIVE_SPEED);
             bot.motorRB.setPower(-DRIVE_SPEED);
@@ -332,6 +334,27 @@ public abstract class Processor extends LinearOpMode {
         }
     }
 
+    public void gotoColumnLeft() {// the direction approating the cyrpoto box changes depending on the side
+
+
+        if (bot.columnToScore == RelicRecoveryVuMark.LEFT) {
+            goPulses(1);
+        }
+        if (bot.columnToScore == RelicRecoveryVuMark.CENTER) {
+            goPulses(2);
+        }
+        if (bot.columnToScore == RelicRecoveryVuMark.RIGHT) {
+            goPulses(3);
+        }
+        forward(10);
+
+        while(bot.distanceSensor.getDistance(DistanceUnit.MM)<100){
+            bot.motorLF.setPower(DRIVE_SPEED);
+            bot.motorRF.setPower(-DRIVE_SPEED);
+            bot.motorRB.setPower(-DRIVE_SPEED);
+            bot.motorLB.setPower(DRIVE_SPEED);
+        }
+    }
     public void goPulses(int numOfCol) {
         int count = 0;
         while(count <= numOfCol){
@@ -341,10 +364,82 @@ public abstract class Processor extends LinearOpMode {
             bot.motorRB.setPower(DRIVE_SPEED);
             bot.motorLB.setPower(-DRIVE_SPEED);
 
-            if (bot.distanceSensor.getDistance(DistanceUnit.MM)>1000)
+            if (bot.distanceSensor.getDistance(DistanceUnit.MM)>100) {
                 count++;
+                forward(13); // clear the column so the same colmn is not counted three time
+            }
         }
     }
 
+    public void encoderDrive(double speed,
+                             double rightFrontInches, double leftFrontInches,double leftBackInches, double rightBackInches,
+                             double timeoutS) {
+        int newLeftFrontTarget;
+        int newRightBackTarget;
+        int newRightFrontTarget;
+        int newLeftBackTarget;
+
+        // Ensure that the opmode is still active
+        if (opModeIsActive()) {
+
+            // Determine new target position, and pass to motor controller
+            newLeftFrontTarget = bot.motorLF.getCurrentPosition() + (int)(leftFrontInches * COUNTS_PER_INCH);
+            newRightFrontTarget = bot.motorRF.getCurrentPosition() + (int)(rightFrontInches * COUNTS_PER_INCH);
+            newRightBackTarget = bot.motorRB.getCurrentPosition() + (int)(rightBackInches * COUNTS_PER_INCH);
+            newLeftBackTarget = bot.motorLB.getCurrentPosition() + (int)(leftBackInches * COUNTS_PER_INCH);
+            bot.motorLF.setTargetPosition(newLeftFrontTarget);
+            bot.motorRF.setTargetPosition(newRightFrontTarget);
+            bot.motorRB.setTargetPosition(newRightBackTarget);
+            bot.motorLB.setTargetPosition(newLeftBackTarget);
+
+            // Turn On RUN_TO_POSITION
+            bot.motorLF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            bot.motorRF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            bot.motorLB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            bot.motorRB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            // reset the timeout time and start motion.
+            runtime.reset();
+            bot.motorLF.setPower(Math.abs(speed));
+            bot.motorRF.setPower(Math.abs(speed));
+            bot.motorLB.setPower(Math.abs(speed));
+            bot.motorRB.setPower(Math.abs(speed));
+
+            // keep looping while we are still active, and there is time left, and both motors are running.
+            // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
+            // its target position, the motion will stop.  This is "safer" in the event that the robot will
+            // always end the motion as soon as possible.
+            // However, if you require that BOTH motors have finished their moves before the robot continues
+            // onto the next step, use (isBusy() || isBusy()) in the loop test.
+            while (opModeIsActive() &&
+                    (runtime.seconds() < timeoutS) &&
+                    (bot.motorLB.isBusy() && bot.motorRB.isBusy()&&bot.motorRF.isBusy()&&bot.motorLF.isBusy())) {
+
+                // Display it for the driver.
+                telemetry.addData("Path1",  "Running to %7d :%7d", newLeftBackTarget,  newLeftFrontTarget,newRightBackTarget,newRightFrontTarget);
+                telemetry.addData("Path2",  "Running at %7d :%7d",
+                        bot.motorLB.getCurrentPosition(),
+                        bot.motorLF.getCurrentPosition(),
+                        bot.motorRB.getCurrentPosition(),
+                        bot.motorRF.getCurrentPosition());
+                telemetry.update();
+            }
+
+            // Stop all motion;
+            bot.motorLB.setPower(0);
+            bot.motorLF.setPower(0);
+            bot.motorRB.setPower(0);
+            bot.motorRF.setPower(0);
+
+
+            // Turn off RUN_TO_POSITION
+            bot.motorLF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            bot.motorRF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            bot.motorRB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            bot.motorLB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+            sleep(250);   // optional pause after each move
+        }
+    }
 
 }
