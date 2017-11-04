@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
 public class ProcessorTest extends TestCase {
     @org.junit.Test
     public void testTrue() {
-        assertEquals(true,true);
+        assertEquals(true, true);
     }
 
     @org.junit.Test
@@ -20,14 +20,16 @@ public class ProcessorTest extends TestCase {
         double actual = (new MyProcessor()).turning(0, -90);
         assertEquals(-0.4, actual);
     }
+
     @org.junit.Test
     public void testTurning90() {
-        double actual = (new MyProcessor()).turning( 0, 90);
+        double actual = (new MyProcessor()).turning(0, 90);
         assertEquals(0.4, actual);
     }
+
     @org.junit.Test
-    public void testcheckJewel(){
-        int actual = (new MyProcessor()).checkJewel(true,true);
+    public void testcheckJewel() {
+        int actual = (new MyProcessor()).checkJewel(true, true);
         assertEquals(15, actual);
 
     }

@@ -362,7 +362,7 @@ public abstract class Processor extends LinearOpMode {
 
     public  int checkJewel(boolean isTeamRed, boolean isSensorRed){
         if(isTeamRed){
-            if( isTeamRed == isSensorRed){
+            if( isTeamRed != isSensorRed){
                 return 15;
             }
             else/*isTeamRed != isSensorRed*/{
@@ -370,7 +370,7 @@ public abstract class Processor extends LinearOpMode {
             }
         }
         else{
-            if(isTeamRed != isSensorRed){
+            if(isTeamRed == isSensorRed){
                 return 15;
             }
             else/*isTeamRed != isSensorRed*/{
@@ -397,7 +397,7 @@ public abstract class Processor extends LinearOpMode {
         }
         forward(10);
 
-        while(bot.distanceSensor.getDistance(DistanceUnit.MM)<100){
+        while(bot.distanceSensor.getDistance(DistanceUnit.CM)>25){
             bot.motorLF.setPower(DRIVE_SPEED);
             bot.motorRF.setPower(-DRIVE_SPEED);
             bot.motorRB.setPower(-DRIVE_SPEED);
@@ -419,7 +419,7 @@ public abstract class Processor extends LinearOpMode {
         }
         forward(10);
 
-        while(bot.distanceSensor.getDistance(DistanceUnit.MM)<100){
+        while(bot.distanceSensor.getDistance(DistanceUnit.CM)>25){
             bot.motorLF.setPower(DRIVE_SPEED);
             bot.motorRF.setPower(-DRIVE_SPEED);
             bot.motorRB.setPower(-DRIVE_SPEED);
@@ -428,19 +428,22 @@ public abstract class Processor extends LinearOpMode {
     }
     public void goPulses(int numOfCol) {
         int count = 0;
-        while(count <= numOfCol){
+        while(count < numOfCol){
 
             bot.motorLF.setPower(-DRIVE_SPEED);
             bot.motorRF.setPower(DRIVE_SPEED);
             bot.motorRB.setPower(DRIVE_SPEED);
             bot.motorLB.setPower(-DRIVE_SPEED);
 
-            if (bot.distanceSensor.getDistance(DistanceUnit.MM)>100) {
+            if (bot.distanceSensor.getDistance(DistanceUnit.CM)<25) {
                 count++;
-                forward(13); // clear the column so the same colmn is not counted three time
+                forward(1000); // clear the column so the same colmn is not counted three time
             }
+            telemetry.addData("count",count );
+            telemetry.update();
         }
     }
+
 
 
 }

@@ -16,6 +16,7 @@ public class Path1 extends Processor{
         bot.init(hardwareMap);
         waitForStart();
         forward(300);
-        turn(90);
+        encoderDrive(DRIVE_SPEED,11,-11,-11,11,10);
+
     }
 }
