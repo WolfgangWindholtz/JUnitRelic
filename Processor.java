@@ -318,37 +318,9 @@ public abstract class Processor extends LinearOpMode {
         return  bot.jewelSensor.red() > bot.jewelSensor.blue();
     }
 
+
+
     public void gotoColumnRight() {// the direction approating the cyrpoto box changes depending on the side
-
-
-        if (bot.columnToScore == RelicRecoveryVuMark.RIGHT) {
-            goPulsesPrep(1);
-        }
-        if (bot.columnToScore == RelicRecoveryVuMark.CENTER) {
-            goPulsesPrep(2);
-        }
-        if (bot.columnToScore == RelicRecoveryVuMark.LEFT) {
-            goPulsesPrep(3);
-        }
-        runtime.reset();
-        while(runtime.milliseconds() < 1000){
-            bot.motorLF.setPower(DRIVE_SPEED);
-            bot.motorRF.setPower(DRIVE_SPEED);
-            bot.motorRB.setPower(-DRIVE_SPEED);
-            bot.motorLB.setPower(-DRIVE_SPEED);
-        }
-        runtime.reset();
-
-
-        while(bot.distanceSensor.getDistance(DistanceUnit.CM)>25){
-            bot.motorLF.setPower(-DRIVE_SPEED);
-            bot.motorRF.setPower(-DRIVE_SPEED);
-            bot.motorRB.setPower(DRIVE_SPEED);
-            bot.motorLB.setPower(DRIVE_SPEED);
-        }
-    }
-
-    public void gotoColumnBluePerp() {// the direction approating the cyrpoto box changes depending on the side
 
 
         if (bot.columnToScore == RelicRecoveryVuMark.LEFT) {
