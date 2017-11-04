@@ -20,6 +20,10 @@ public class FullAutoRedParallel extends Processor{
 
         checkVu();
 
+        bot.glyphServo1.setPosition(0.47);
+        bot.glyphServo2.setPosition(0.429);
+        sleep(500);
+
         knockJewel(true);
 
         //forward(300);
@@ -28,10 +32,12 @@ public class FullAutoRedParallel extends Processor{
         encoderDrive(.4,10,-10,-10,5,10);
 
 
-        turn(90);
+        turn(-90);
 
-        encoderDrive(.4,5,5,5,5,10);
+        encoderDrive(.4,5,-5,-5,5,10);
 
-        gotoColumnRight();
+        gotoColumnLeft();
+        score();
+
     }
 }

@@ -197,7 +197,7 @@ public abstract class Processor extends LinearOpMode {
     // SEPERATE STATE LATER IS SCORE STATE
     // PASS IN PARAMETERS THAT WILL TELL HOW TO SCORE
 
-    
+
 
     public void getOffStone() {
         //accesses the gyro values
@@ -287,72 +287,9 @@ public abstract class Processor extends LinearOpMode {
         }
     }
 
-    public void strafeForward(int distance) {
-        double temp = COUNTS_PER_MOTOR_REV * (distance / OMNI_WHEEL_CIRCUMFERENCE);
-        bot.motorLB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        bot.motorRF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        bot.motorLF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        bot.motorRB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        while ((bot.motorLB.getCurrentPosition() < temp + 100) && (bot.motorRF.getCurrentPosition() < temp + 100) && (bot.motorLF.getCurrentPosition() < temp + 100) && (bot.motorRB.getCurrentPosition() < temp + 100)) {
-            bot.motorLB.setPower(-0.5);
-            bot.motorRF.setPower(0.5);
-            bot.motorLF.setPower(-0.5);
-            bot.motorRB.setPower(0.5);
-        }
-
-    }
-
-    public void strafeBack(int distance) {
-        double temp = COUNTS_PER_MOTOR_REV * (distance / OMNI_WHEEL_CIRCUMFERENCE);
-        bot.motorLB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        bot.motorRF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        bot.motorLF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        bot.motorRB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        while ((bot.motorLB.getCurrentPosition() < temp + 100) && (bot.motorRF.getCurrentPosition() < temp + 100) && (bot.motorLF.getCurrentPosition() < temp + 100) && (bot.motorRB.getCurrentPosition() < temp + 100)) {
-            bot.motorLB.setPower(0.5);
-            bot.motorRF.setPower(-0.5);
-            bot.motorLF.setPower(0.5);
-            bot.motorRB.setPower(-0.5);
-        }
-
-    }
-
-    public void strafeLeft(int distance) {
-        double temp = COUNTS_PER_MOTOR_REV * (distance / OMNI_WHEEL_CIRCUMFERENCE);
-        bot.motorLB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        bot.motorRF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        bot.motorLF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        bot.motorRB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        while ((bot.motorLB.getCurrentPosition() < temp + 100) && (bot.motorRF.getCurrentPosition() < temp + 100) && (bot.motorLF.getCurrentPosition() < temp + 100) && (bot.motorRB.getCurrentPosition() < temp + 100)) {
-            bot.motorLB.setPower(-0.5);
-            bot.motorRF.setPower(0.5);
-            bot.motorLF.setPower(0.5);
-            bot.motorRB.setPower(-0.5);
-        }
-
-    }
-
-    public void strafeRight(int distance) {
-        double temp = COUNTS_PER_MOTOR_REV * (distance / OMNI_WHEEL_CIRCUMFERENCE);
-        bot.motorLB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        bot.motorRF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        bot.motorLF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        bot.motorRB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        while ((bot.motorLB.getCurrentPosition() < temp + 100) && (bot.motorRF.getCurrentPosition() < temp + 100) && (bot.motorLF.getCurrentPosition() < temp + 100) && (bot.motorRB.getCurrentPosition() < temp + 100)) {
-            bot.motorLB.setPower(0.5);
-            bot.motorRF.setPower(-0.5);
-            bot.motorLF.setPower(-0.5);
-            bot.motorRB.setPower(0.5);
-        }
-
-    }
 
     public void knockJewel(boolean isTeamRed){
-        bot.jewelServo.setPosition(90);
+        bot.jewelServo.setPosition(.7);
         int toTurn = checkJewel(isTeamRed,isSensorRed());
         turn(toTurn);
         turn(-toTurn);
@@ -369,10 +306,10 @@ public abstract class Processor extends LinearOpMode {
         }
         else{
             if(isTeamRed == isSensorRed){
-                return 15;
+                return -15;
             }
             else/*isTeamRed != isSensorRed*/{
-                return -15;
+                return 15;
             }
         }
     }
@@ -385,13 +322,13 @@ public abstract class Processor extends LinearOpMode {
 
 
         if (bot.columnToScore == RelicRecoveryVuMark.RIGHT) {
-            goPulses(1);
+            goPulsesPrep(1);
         }
         if (bot.columnToScore == RelicRecoveryVuMark.CENTER) {
-            goPulses(2);
+            goPulsesPrep(2);
         }
         if (bot.columnToScore == RelicRecoveryVuMark.LEFT) {
-            goPulses(3);
+            goPulsesPrep(3);
         }
         runtime.reset();
         while(runtime.milliseconds() < 1000){
@@ -441,13 +378,13 @@ public abstract class Processor extends LinearOpMode {
     public void gotoColumnLeft() {// the direction approating the cyrpoto box changes depending on the side
 
 
-        if (bot.columnToScore == RelicRecoveryVuMark.LEFT) {
+        if (bot.columnToScore == RelicRecoveryVuMark.RIGHT) {
             goPulses(1);
         }
         if (bot.columnToScore == RelicRecoveryVuMark.CENTER) {
             goPulses(2);
         }
-        if (bot.columnToScore == RelicRecoveryVuMark.RIGHT) {
+        if (bot.columnToScore == RelicRecoveryVuMark.LEFT) {
             goPulses(3);
         }
         while(runtime.milliseconds() < 1000){
@@ -476,6 +413,8 @@ public abstract class Processor extends LinearOpMode {
 
             if (bot.distanceSensor.getDistance(DistanceUnit.CM)<25) {
                 count++;
+                runtime.reset();
+
                 while(runtime.milliseconds() < 1000){
                     bot.motorLF.setPower(DRIVE_SPEED);
                     bot.motorRF.setPower(DRIVE_SPEED);
@@ -500,6 +439,8 @@ public abstract class Processor extends LinearOpMode {
 
             if (bot.distanceSensor.getDistance(DistanceUnit.CM)<25) {
                 count++;
+                runtime.reset();
+
                 while(runtime.milliseconds() < 1000){
                     bot.motorLF.setPower(-DRIVE_SPEED);
                     bot.motorRF.setPower(-DRIVE_SPEED);
@@ -514,7 +455,26 @@ public abstract class Processor extends LinearOpMode {
         }
     }
 
-    public void score(){
+    public void score() throws InterruptedException {
+        bot.glyphServo1.setPosition(0.75);
+        bot.glyphServo2.setPosition(0.15);
+        wait(500);
+        while(bot.distanceSensor.getDistance(DistanceUnit.CM)>1){// go until close enouhg to column
+            bot.motorLF.setPower(-DRIVE_SPEED);
+            bot.motorRF.setPower(DRIVE_SPEED);
+            bot.motorRB.setPower(DRIVE_SPEED);
+            bot.motorLB.setPower(-DRIVE_SPEED);
+        }
+
+        runtime.reset();
+
+        while(runtime.milliseconds() < 1000){
+            bot.motorLF.setPower(DRIVE_SPEED);
+            bot.motorRF.setPower(-DRIVE_SPEED);
+            bot.motorRB.setPower(-DRIVE_SPEED);
+            bot.motorLB.setPower(DRIVE_SPEED);
+        }
+        runtime.reset();
 
     }
 
