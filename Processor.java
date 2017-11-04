@@ -197,9 +197,7 @@ public abstract class Processor extends LinearOpMode {
     // SEPERATE STATE LATER IS SCORE STATE
     // PASS IN PARAMETERS THAT WILL TELL HOW TO SCORE
 
-    public void score() {
-        //MOTOR MOTIONS TO SCORE
-    }
+    
 
     public void getOffStone() {
         //accesses the gyro values
@@ -395,16 +393,51 @@ public abstract class Processor extends LinearOpMode {
         if (bot.columnToScore == RelicRecoveryVuMark.LEFT) {
             goPulses(3);
         }
-        forward(10);
+        runtime.reset();
+        while(runtime.milliseconds() < 1000){
+            bot.motorLF.setPower(DRIVE_SPEED);
+            bot.motorRF.setPower(DRIVE_SPEED);
+            bot.motorRB.setPower(-DRIVE_SPEED);
+            bot.motorLB.setPower(-DRIVE_SPEED);
+        }
+        runtime.reset();
+
 
         while(bot.distanceSensor.getDistance(DistanceUnit.CM)>25){
-            bot.motorLF.setPower(DRIVE_SPEED);
+            bot.motorLF.setPower(-DRIVE_SPEED);
             bot.motorRF.setPower(-DRIVE_SPEED);
-            bot.motorRB.setPower(-DRIVE_SPEED);
+            bot.motorRB.setPower(DRIVE_SPEED);
             bot.motorLB.setPower(DRIVE_SPEED);
         }
     }
 
+    public void gotoColumnBluePerp() {// the direction approating the cyrpoto box changes depending on the side
+
+
+        if (bot.columnToScore == RelicRecoveryVuMark.LEFT) {
+            goPulsesPrep(1);
+        }
+        if (bot.columnToScore == RelicRecoveryVuMark.CENTER) {
+            goPulsesPrep(2);
+        }
+        if (bot.columnToScore == RelicRecoveryVuMark.RIGHT) {
+            goPulsesPrep(3);
+        }
+        while(runtime.milliseconds() < 1000){
+            bot.motorLF.setPower(-DRIVE_SPEED);
+            bot.motorRF.setPower(-DRIVE_SPEED);
+            bot.motorRB.setPower(DRIVE_SPEED);
+            bot.motorLB.setPower(DRIVE_SPEED);
+        }
+        runtime.reset();
+
+        while(bot.distanceSensor.getDistance(DistanceUnit.CM)>25){
+            bot.motorLF.setPower(DRIVE_SPEED);
+            bot.motorRF.setPower(DRIVE_SPEED);
+            bot.motorRB.setPower(-DRIVE_SPEED);
+            bot.motorLB.setPower(-DRIVE_SPEED);
+        }
+    }
     public void gotoColumnLeft() {// the direction approating the cyrpoto box changes depending on the side
 
 
@@ -417,12 +450,18 @@ public abstract class Processor extends LinearOpMode {
         if (bot.columnToScore == RelicRecoveryVuMark.RIGHT) {
             goPulses(3);
         }
-        forward(10);
+        while(runtime.milliseconds() < 1000){
+            bot.motorLF.setPower(DRIVE_SPEED);
+            bot.motorRF.setPower(DRIVE_SPEED);
+            bot.motorRB.setPower(-DRIVE_SPEED);
+            bot.motorLB.setPower(-DRIVE_SPEED);
+        }
+        runtime.reset();
 
         while(bot.distanceSensor.getDistance(DistanceUnit.CM)>25){
-            bot.motorLF.setPower(DRIVE_SPEED);
+            bot.motorLF.setPower(-DRIVE_SPEED);
             bot.motorRF.setPower(-DRIVE_SPEED);
-            bot.motorRB.setPower(-DRIVE_SPEED);
+            bot.motorRB.setPower(DRIVE_SPEED);
             bot.motorLB.setPower(DRIVE_SPEED);
         }
     }
@@ -430,19 +469,55 @@ public abstract class Processor extends LinearOpMode {
         int count = 0;
         while(count < numOfCol){
 
-            bot.motorLF.setPower(-DRIVE_SPEED);
+            bot.motorLF.setPower(DRIVE_SPEED);
             bot.motorRF.setPower(DRIVE_SPEED);
-            bot.motorRB.setPower(DRIVE_SPEED);
+            bot.motorRB.setPower(-DRIVE_SPEED);
             bot.motorLB.setPower(-DRIVE_SPEED);
 
             if (bot.distanceSensor.getDistance(DistanceUnit.CM)<25) {
                 count++;
-                forward(1000); // clear the column so the same colmn is not counted three time
+                while(runtime.milliseconds() < 1000){
+                    bot.motorLF.setPower(DRIVE_SPEED);
+                    bot.motorRF.setPower(DRIVE_SPEED);
+                    bot.motorRB.setPower(-DRIVE_SPEED);
+                    bot.motorLB.setPower(-DRIVE_SPEED);
+                }
+                runtime.reset();
+                // clear the column so the same colmn is not counted three time
             }
             telemetry.addData("count",count );
             telemetry.update();
         }
     }
+    public void goPulsesPrep(int numOfCol) {
+        int count = 0;
+        while(count < numOfCol){
+
+            bot.motorLF.setPower(-DRIVE_SPEED);
+            bot.motorRF.setPower(-DRIVE_SPEED);
+            bot.motorRB.setPower(DRIVE_SPEED);
+            bot.motorLB.setPower(DRIVE_SPEED);
+
+            if (bot.distanceSensor.getDistance(DistanceUnit.CM)<25) {
+                count++;
+                while(runtime.milliseconds() < 1000){
+                    bot.motorLF.setPower(-DRIVE_SPEED);
+                    bot.motorRF.setPower(-DRIVE_SPEED);
+                    bot.motorRB.setPower(DRIVE_SPEED);
+                    bot.motorLB.setPower(DRIVE_SPEED);
+                }
+                runtime.reset();
+                 // clear the column so the same colmn is not counted three time
+            }
+            telemetry.addData("count",count );
+            telemetry.update();
+        }
+    }
+
+    public void score(){
+
+    }
+
 
 
 
