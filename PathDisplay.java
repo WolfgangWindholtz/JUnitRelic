@@ -19,7 +19,7 @@ public class PathDisplay extends Processor{
         waitForStart();
         while(opModeIsActive()){
             recordTelemetry(1,1,bot.imu.getAngularOrientation(),1);
-            telemetry.addData("",bot.distanceSensor.getDistance(DistanceUnit.MM));
+            telemetry.addData("",bot.rangeSensor.getDistance(DistanceUnit.MM));
         }
     }
 }

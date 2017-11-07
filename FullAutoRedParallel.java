@@ -22,7 +22,7 @@ public class FullAutoRedParallel extends Processor{
 
         bot.glyphServo1.setPosition(0.47);
         bot.glyphServo2.setPosition(0.429);
-        sleep(500);
+        sleep(1000);
 
         knockJewel(true);
 

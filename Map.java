@@ -2,12 +2,13 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
@@ -46,7 +47,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
@@ -74,22 +75,20 @@ public class Map {
     DcMotor motorRF;
     DcMotor motorRB;
     DcMotor slideMotor;
-    DcMotor slideMotor2;
 
     Servo glyphServo1;
     Servo glyphServo2;
+    Servo jewelServo;
 
-    DistanceSensor distanceSensor;
+    ModernRoboticsI2cRangeSensor rangeSensor = null;
+
+    ModernRoboticsI2cColorSensor colorSensor = null;
 
     int cameraMonitorViewId;
     VuforiaTrackables relicTrackables;
     VuforiaTrackable relicTemplate;
 
     RelicRecoveryVuMark columnToScore;
-
-    ColorSensor jewelSensor;
-
-    Servo jewelServo;
 
     double tX;
     double tY;
@@ -102,6 +101,9 @@ public class Map {
 
     VuforiaLocalizer vuforia;
 
+    ElapsedTime runtime = new ElapsedTime();
+
+
     public void init(HardwareMap ahwMap) {
 
         // save reference to HW Map
@@ -112,17 +114,11 @@ public class Map {
         motorRF = hwMap.dcMotor.get("motorRF");
         motorRB = hwMap.dcMotor.get("motorRB");
         slideMotor = hwMap.dcMotor.get("slideMotor");
-        slideMotor2 = hwMap.dcMotor.get("slideMotor2");
         //motorLB.setDirection(DcMotor.Direction.REVERSE);
         //^^^^^^^^^^^^^^^^^^^^^^^^^R^RmotorRF.setDirection(DcMotor.Direction.REVERSE);
         glyphServo1 = hwMap.servo.get("glyphServo1");
         glyphServo2 = hwMap.servo.get("glyphServo2");
-
-        jewelSensor = hwMap.colorSensor.get("jewelSensor");
         jewelServo = hwMap.servo.get("jewelServo");
-
-        distanceSensor = (DistanceSensor) hwMap.opticalDistanceSensor.get("distanceSensor");
-
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
@@ -134,6 +130,9 @@ public class Map {
 
         imu.initialize(parameters);
 
+        rangeSensor = hwMap.get(ModernRoboticsI2cRangeSensor.class,"rangeSensor");
+        colorSensor = hwMap.get(ModernRoboticsI2cColorSensor.class,"colorSensor");
+
 
         cameraMonitorViewId = hwMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hwMap.appContext.getPackageName());
         VuforiaLocalizer.Parameters param = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
@@ -143,7 +142,6 @@ public class Map {
         motorRF.setDirection(DcMotor.Direction.FORWARD);
         motorLB.setDirection(DcMotor.Direction.FORWARD);
         slideMotor.setDirection(DcMotor.Direction.FORWARD);
-        slideMotor2.setDirection(DcMotor.Direction.REVERSE);
 
 
         param.vuforiaLicenseKey = "AfbM7ND/////AAAAGUXqRoQRDEkKupX0Zkdd3WhqVs68pW5fggxtJc7rlwOAI1WWfs5J4APPWl3FElqMVRdxwlDg3Rcx2DycCogRQGhyOZ6Gakktkgk22k/vy9q8OGLvDvGQQf6zOW3Qrs4hkn2qDWA4r5pDz3W8Aoh97+RCVTiVstECpe1mp97YGrYc5EeyW68aml6lirGr43motonPrXChztqG/3WpqYfFRFIsc+g+leI/ihWuAA1ZUFDYQjRV94GRl66w31kHcGtm+j2BKUlcQsVPmhizh+396O5r4yGkTcLBAZxyuyGm+lerwPJ9DWrkCiwVOtnCVqLUkfAoAjpuXuXEtW4JTlwqYmKVTuVDIg4Wcm7c8vLEBV/4";
@@ -156,8 +154,13 @@ public class Map {
         relicTemplate.setName("relicVuMarkTemplate");
 
         relicTrackables.activate();
+        colorSensor.enableLed(true);
 
         vuMark = RelicRecoveryVuMark.from(relicTemplate);
+
+        slideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        jewelServo.setPosition(.5);
 
 
     }

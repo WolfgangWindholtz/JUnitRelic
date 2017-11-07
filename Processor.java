@@ -176,6 +176,7 @@ public abstract class Processor extends LinearOpMode {
     public void checkCol() {
         checkVu();
         while(bot.columnToScore == null) {
+            bot.vuMark = RelicRecoveryVuMark.from(bot.relicTemplate);
             if (bot.vuMark != RelicRecoveryVuMark.UNKNOWN) {
                 telemetry.addData("VuMark", "%s visible", bot.vuMark);
 
@@ -194,7 +195,7 @@ public abstract class Processor extends LinearOpMode {
     }
 
 
-    // SEPERATE STATE LATER IS SCORE STATE
+    // SEPARATE STATE LATER IS SCORE STATE
     // PASS IN PARAMETERS THAT WILL TELL HOW TO SCORE
 
 
@@ -289,13 +290,20 @@ public abstract class Processor extends LinearOpMode {
 
 
     public void knockJewel(boolean isTeamRed){
-        bot.jewelServo.setPosition(.7);
+        bot.jewelServo.setPosition(.1);
+        sleep(1000);
         int toTurn = checkJewel(isTeamRed,isSensorRed());
+        telemetry.addData("blue", bot.colorSensor.blue());
+        telemetry.addData("red", bot.colorSensor.red());
         turn(toTurn);
+        sleep(500);
         turn(-toTurn);
+        bot.jewelServo.setPosition(1);
+        sleep(1000);
     }
 
     public  int checkJewel(boolean isTeamRed, boolean isSensorRed){
+
         if(isTeamRed){
             if( isTeamRed != isSensorRed){
                 return 15;
@@ -315,12 +323,16 @@ public abstract class Processor extends LinearOpMode {
     }
 
     public boolean isSensorRed(){
-        return  bot.jewelSensor.red() > bot.jewelSensor.blue();
+
+        telemetry.addData("blue", bot.colorSensor.blue());
+        telemetry.addData("red", bot.colorSensor.red());
+        return  bot.colorSensor.red() > bot.colorSensor.blue();
+
     }
 
 
 
-    public void gotoColumnRight() {// the direction approating the cyrpoto box changes depending on the side
+    public void gotoColumnRight() {// the direction approaching the cryptobox changes depending on the side
 
 
         if (bot.columnToScore == RelicRecoveryVuMark.LEFT) {
@@ -340,14 +352,14 @@ public abstract class Processor extends LinearOpMode {
         }
         runtime.reset();
 
-        while(bot.distanceSensor.getDistance(DistanceUnit.CM)>25){
+        while(bot.rangeSensor.getDistance(DistanceUnit.CM)>25){
             bot.motorLF.setPower(DRIVE_SPEED);
             bot.motorRF.setPower(DRIVE_SPEED);
             bot.motorRB.setPower(-DRIVE_SPEED);
             bot.motorLB.setPower(-DRIVE_SPEED);
         }
     }
-    public void gotoColumnLeft() {// the direction approating the cyrpoto box changes depending on the side
+    public void gotoColumnLeft() {// the direction approaching the cryptobox changes depending on the side
 
 
         if (bot.columnToScore == RelicRecoveryVuMark.RIGHT) {
@@ -367,7 +379,7 @@ public abstract class Processor extends LinearOpMode {
         }
         runtime.reset();
 
-        while(bot.distanceSensor.getDistance(DistanceUnit.CM)>25){
+        while(bot.rangeSensor.getDistance(DistanceUnit.CM)>25){
             bot.motorLF.setPower(-DRIVE_SPEED);
             bot.motorRF.setPower(-DRIVE_SPEED);
             bot.motorRB.setPower(DRIVE_SPEED);
@@ -383,7 +395,7 @@ public abstract class Processor extends LinearOpMode {
             bot.motorRB.setPower(-DRIVE_SPEED);
             bot.motorLB.setPower(-DRIVE_SPEED);
 
-            if (bot.distanceSensor.getDistance(DistanceUnit.CM)<25) {
+            if (bot.rangeSensor.getDistance(DistanceUnit.CM)<25) {
                 count++;
                 runtime.reset();
 
@@ -394,7 +406,7 @@ public abstract class Processor extends LinearOpMode {
                     bot.motorLB.setPower(-DRIVE_SPEED);
                 }
                 runtime.reset();
-                // clear the column so the same colmn is not counted three time
+                // clear the column so the same column is not counted three time
             }
             telemetry.addData("count",count );
             telemetry.update();
@@ -409,7 +421,7 @@ public abstract class Processor extends LinearOpMode {
             bot.motorRB.setPower(DRIVE_SPEED);
             bot.motorLB.setPower(DRIVE_SPEED);
 
-            if (bot.distanceSensor.getDistance(DistanceUnit.CM)<25) {
+            if (bot.rangeSensor.getDistance(DistanceUnit.CM)<25) {
                 count++;
                 runtime.reset();
 
@@ -420,7 +432,7 @@ public abstract class Processor extends LinearOpMode {
                     bot.motorLB.setPower(DRIVE_SPEED);
                 }
                 runtime.reset();
-                 // clear the column so the same colmn is not counted three time
+                 // clear the column so the same column is not counted three time
             }
             telemetry.addData("count",count );
             telemetry.update();
@@ -431,7 +443,7 @@ public abstract class Processor extends LinearOpMode {
         bot.glyphServo1.setPosition(0.75);
         bot.glyphServo2.setPosition(0.15);
         wait(500);
-        while(bot.distanceSensor.getDistance(DistanceUnit.CM)>1){// go until close enouhg to column
+        while(bot.rangeSensor.getDistance(DistanceUnit.CM)>1){// go until close enough to the column
             bot.motorLF.setPower(-DRIVE_SPEED);
             bot.motorRF.setPower(DRIVE_SPEED);
             bot.motorRB.setPower(DRIVE_SPEED);
@@ -445,6 +457,7 @@ public abstract class Processor extends LinearOpMode {
             bot.motorRF.setPower(-DRIVE_SPEED);
             bot.motorRB.setPower(-DRIVE_SPEED);
             bot.motorLB.setPower(DRIVE_SPEED);
+
         }
         runtime.reset();
 
