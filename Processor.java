@@ -306,18 +306,18 @@ public abstract class Processor extends LinearOpMode {
 
         if(isTeamRed){
             if( isTeamRed != isSensorRed){
-                return -15;
+                return 15;
             }
             else/*isTeamRed != isSensorRed*/{
-                return 15;
+                return -15;
             }
         }
         else{
             if(isTeamRed == isSensorRed){
-                return 15;
+                return -15;
             }
             else/*isTeamRed != isSensorRed*/{
-                return -15;
+                return 15;
             }
         }
     }
