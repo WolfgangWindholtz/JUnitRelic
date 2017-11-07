@@ -290,8 +290,8 @@ public abstract class Processor extends LinearOpMode {
 
 
     public void knockJewel(boolean isTeamRed){
-        bot.jewelServo.setPosition(.1);
-        sleep(1000);
+        bot.jewelServo.setPosition(0);
+        sleep(2000);
         int toTurn = checkJewel(isTeamRed,isSensorRed());
         telemetry.addData("blue", bot.colorSensor.blue());
         telemetry.addData("red", bot.colorSensor.red());
@@ -299,25 +299,25 @@ public abstract class Processor extends LinearOpMode {
         sleep(500);
         turn(-toTurn);
         bot.jewelServo.setPosition(1);
-        sleep(1000);
+        sleep(2000);
     }
 
     public  int checkJewel(boolean isTeamRed, boolean isSensorRed){
 
         if(isTeamRed){
             if( isTeamRed != isSensorRed){
-                return 15;
+                return -15;
             }
             else/*isTeamRed != isSensorRed*/{
-                return -15;
+                return 15;
             }
         }
         else{
             if(isTeamRed == isSensorRed){
-                return -15;
+                return 15;
             }
             else/*isTeamRed != isSensorRed*/{
-                return 15;
+                return -15;
             }
         }
     }

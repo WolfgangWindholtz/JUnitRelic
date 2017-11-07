@@ -15,8 +15,36 @@ public class Path1 extends Processor{
     public void runOpMode() throws InterruptedException {
         bot.init(hardwareMap);
         waitForStart();
-        forward(300);
-        encoderDrive(DRIVE_SPEED,11,-11,-11,11,10);
+
+        isSensorRed();
+        telemetry.update();
+        bot.jewelServo.setPosition( 1 );
+        sleep(1000);
+
+        isSensorRed();
+        telemetry.update();
+        bot.jewelServo.setPosition( .8 );
+        sleep(1000);
+
+        isSensorRed();
+        telemetry.update();
+        bot.jewelServo.setPosition( .6 );
+        sleep(1000);
+
+        isSensorRed();
+        telemetry.update();
+        bot.jewelServo.setPosition( .4 );
+        sleep(1000);
+
+        isSensorRed();
+        telemetry.update();
+        bot.jewelServo.setPosition(.2);
+        sleep(1000);
+
+        isSensorRed();
+        telemetry.update();
+        bot.jewelServo.setPosition(0);
+        sleep(1000);
 
     }
 }
