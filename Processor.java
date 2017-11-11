@@ -305,19 +305,19 @@ public abstract class Processor extends LinearOpMode {
     public  int checkJewel(boolean isTeamRed, boolean isSensorRed){
 
         if(isTeamRed){
-            if( isTeamRed != isSensorRed){
-                return 15;
+            if( isTeamRed == isSensorRed){
+                return -15;
             }
             else/*isTeamRed != isSensorRed*/{
-                return -15;
+                return 15;
             }
         }
         else{
             if(isTeamRed == isSensorRed){
-                return -15;
+                return 15;
             }
             else/*isTeamRed != isSensorRed*/{
-                return 15;
+                return -15;
             }
         }
     }

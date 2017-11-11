@@ -79,6 +79,7 @@ public class Map {
     Servo glyphServo1;
     Servo glyphServo2;
     Servo jewelServo;
+    Servo test;
 
     ModernRoboticsI2cRangeSensor rangeSensor = null;
 
@@ -164,4 +165,5 @@ public class Map {
 
 
     }
+
 }

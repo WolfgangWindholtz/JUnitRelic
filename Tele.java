@@ -28,12 +28,16 @@ public class Tele extends OpMode{
         bot.glyphServo2.setPosition(0.15);
     }
 
-    @Override
-    public void loop() {
+    public void readGamePad() {
         zpow = gamepad1.right_stick_x;//direction not actually
         ypow = gamepad1.left_stick_y;// variable names are incoorect
         xpow = gamepad1.left_stick_x;
+    }
 
+    @Override
+    public void loop() {
+
+        readGamePad();
         double mag = Math.sqrt(ypow * ypow + xpow * xpow);
         double theta = Math.atan2(ypow, xpow);
         double aPair = mag * Math.cos(theta - Math.PI/4);
@@ -52,62 +56,41 @@ public class Tele extends OpMode{
 
         bot.slideMotor.setPower(slidePower);
 
-        if(gamepad2.a)
+        if(gamepad2.a)  // gripGlyphs
         {
-            bot.glyphServo1.setPosition(0.47);
-            bot.glyphServo2.setPosition(0.429);
+            gripGlyph();
         }
-        if(gamepad2.b)
+        if(gamepad2.b)  // openLeft
         {
-            bot.glyphServo1.setPosition(0.55);
+            openLeft();
         }
-        if(gamepad2.x)
+        if(gamepad2.x)  // openRight
         {
-            bot.glyphServo2.setPosition(0.32);
+            openRight();
         }
-        if(gamepad2.y)
+        if(gamepad2.y) // releaseGlyphs
         {
-            bot.glyphServo1.setPosition(0.55);
-            bot.glyphServo2.setPosition(0.32);
+            realeaseGlyph();
         }
     }
-    public void checkVu() {
 
-        /* For fun, we also exhibit the navigational pose. In the Relic Recovery game,
-        * it is perhaps unlikely that you will actually need to act on this pose information, but
-        * we illustrate it nevertheless, for completeness. */
-        OpenGLMatrix pose = ((VuforiaTrackableDefaultListener) bot.relicTemplate.getListener()).getPose();
-        telemetry.addData("Pose", format(pose));
-
-                /* We further illustrate how to decompose the pose into useful rotational and
-                 * translational components */
-        if (pose != null) {
-            VectorF trans = pose.getTranslation();
-            Orientation rot = Orientation.getOrientation(pose, AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
-
-            // Extract the X, Y, and Z components of the offset of the target relative to the robot
-            bot.tX = trans.get(0);
-            bot.tY = trans.get(1);
-            bot.tZ = trans.get(2);
-
-            // X = vertical axis
-            // Y = horizonatal Axis
-            // Z = Depth Axis
-            // Extract the rotational components of the target relative to the robot
-            bot.rX = rot.firstAngle;
-            bot.rY = rot.secondAngle;
-            bot.rZ = rot.thirdAngle;
-        }
-        else {
-            telemetry.addData("VuMark", "not visible");
-        }
-        bot.vuMark = RelicRecoveryVuMark.from(bot.relicTemplate);
-        telemetry.addData("Z", bot.tZ);
-        telemetry.addData("X", bot.tX);
-        telemetry.update();
+    public void gripGlyph() {
+        bot.glyphServo1.setPosition(0.47);
+        bot.glyphServo2.setPosition(0.429);
     }
-    String format(OpenGLMatrix transformationMatrix) {
-        return (transformationMatrix != null) ? transformationMatrix.formatAsTransform() : "null";
+
+    public void openLeft() {
+        bot.glyphServo1.setPosition(0.55);
     }
+
+    public void openRight() {
+        bot.glyphServo2.setPosition(0.32);
+    }
+
+    public void realeaseGlyph() {
+        openLeft();
+        openRight();
+    }
+
 
 }

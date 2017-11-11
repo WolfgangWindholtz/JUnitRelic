@@ -20,7 +20,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
  * Created by wolfie on 10/30/17.
  */
 
-public class TestMap {
+public class TestMap implements MapInterface {
     public BNO055IMU imu;
     HardwareMap hwMap = null;
     DcMotor motorLF;

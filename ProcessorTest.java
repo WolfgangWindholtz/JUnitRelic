@@ -30,13 +30,13 @@ public class ProcessorTest extends TestCase {
     @org.junit.Test
     public void testcheckJewel() {
         int actual = (new MyProcessor()).checkJewel(true, true);
-        assertEquals(15, actual);
+        assertEquals(-15, actual);
 
     }
     @org.junit.Test
     public void testcheckJewel2() {
         int actual = (new MyProcessor()).checkJewel(true, false);
-        assertEquals(-15, actual);
+        assertEquals(15, actual);
 
     }
     @org.junit.Test
@@ -45,4 +45,5 @@ public class ProcessorTest extends TestCase {
         assertEquals(-15, actual);
 
     }
+
 }
