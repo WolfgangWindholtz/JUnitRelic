@@ -15,7 +15,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefau
 
 @TeleOp(name = "XTele", group = "X")
 public class Tele extends OpMode{
-    Map bot = new Map();
+    TeleMap bot = new TeleMap();
     double xpow;
     double ypow;
     double zpow;
@@ -24,8 +24,8 @@ public class Tele extends OpMode{
     @Override
     public void init() {
         bot.init(hardwareMap);
-        bot.glyphServo1.setPosition(0.75);
-        bot.glyphServo2.setPosition(0.15);
+        bot.glyphServo1.setPosition(0.4);
+        bot.glyphServo2.setPosition(0.6);
     }
 
     public void readGamePad() {
@@ -43,10 +43,10 @@ public class Tele extends OpMode{
         double aPair = mag * Math.cos(theta - Math.PI/4);
         double bPair = mag * Math.sin(theta - Math.PI/4);
 
-        bot.motorLF.setPower(0.6*(bPair-zpow));
-        bot.motorRF.setPower(0.6*(-aPair-zpow));
-        bot.motorRB.setPower(0.6*(-bPair-zpow));
-        bot.motorLB.setPower(0.6*(aPair-zpow));
+        bot.motorLF.setPower(0.7*(bPair-zpow));
+        bot.motorRF.setPower(0.7*(-aPair-zpow));
+        bot.motorRB.setPower(0.7*(-bPair-zpow));
+        bot.motorLB.setPower(0.7*(aPair-zpow));
 
         double slidePower = gamepad2.left_stick_y;
         if(slidePower>0)
@@ -62,29 +62,43 @@ public class Tele extends OpMode{
         }
         if(gamepad2.b)  // openLeft
         {
-            openLeft();
+            openRight();
         }
         if(gamepad2.x)  // openRight
         {
-            openRight();
+            openLeft();
         }
         if(gamepad2.y) // releaseGlyphs
         {
             realeaseGlyph();
         }
+        if(gamepad2.dpad_left){
+            bot.glyphServo1.setPosition(1);
+        }
+        if(gamepad2.dpad_right){
+            bot.glyphServo2.setPosition(1);
+        }
+        if(gamepad2.dpad_up){
+            bot.glyphServo1.setPosition(0);
+        }
+        if(gamepad2.dpad_down){
+            bot.glyphServo2.setPosition(0);
+        }
+
+
     }
 
     public void gripGlyph() {
-        bot.glyphServo1.setPosition(0.47);
-        bot.glyphServo2.setPosition(0.429);
-    }
-
-    public void openLeft() {
-        bot.glyphServo1.setPosition(0.55);
+        bot.glyphServo1.setPosition(0.69);
+        bot.glyphServo2.setPosition(0.35);
     }
 
     public void openRight() {
-        bot.glyphServo2.setPosition(0.32);
+        bot.glyphServo1.setPosition(0.53);
+    }
+
+    public void openLeft() {
+        bot.glyphServo2.setPosition(0.5);
     }
 
     public void realeaseGlyph() {

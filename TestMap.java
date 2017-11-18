@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsAnalogOpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
@@ -20,7 +21,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
  * Created by wolfie on 10/30/17.
  */
 
-public class TestMap implements MapInterface {
+public class TestMap {
     public BNO055IMU imu;
     HardwareMap hwMap = null;
     DcMotor motorLF;
@@ -30,7 +31,8 @@ public class TestMap implements MapInterface {
 
 
 
-    DistanceSensor sensorDistance;
+    DistanceSensor sensorDistance1;
+    DistanceSensor sensorDistance2;
 
     int cameraMonitorViewId;
     VuforiaTrackables relicTrackables;
@@ -62,7 +64,9 @@ public class TestMap implements MapInterface {
         motorRB = hwMap.dcMotor.get("motorRB");
 
 
-        sensorDistance = hwMap.get(DistanceSensor.class, "sensorDistance");
+        sensorDistance1 = hwMap.get(DistanceSensor.class, "sensorDistance1");
+        sensorDistance2 = hwMap.get(DistanceSensor.class, "sensorDistance2");
+
 
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();

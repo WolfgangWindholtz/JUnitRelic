@@ -11,6 +11,25 @@ import com.qualcomm.robotcore.hardware.configuration.MotorConfigurationType;
  */
 
 public class DcMotorStub implements DcMotor {
+
+    // feilds
+    private double power;
+    private ZeroPowerBehavior zeroPowerBehavior;
+    private int targetPos;
+    private int currentPos;
+    private RunMode mode;
+    private Direction direction;
+
+
+    public DcMotorStub() {
+        this.power = 0;
+        this.zeroPowerBehavior = ZeroPowerBehavior.FLOAT;
+        this.targetPos = 0;
+        this.currentPos = 0;
+        this.mode = RunMode.RUN_WITHOUT_ENCODER;
+        this.direction = Direction.FORWARD;
+    }
+
     /**
      * Returns the assigned type for this motor. If no particular motor type has been
      * configured, then {@link MotorConfigurationType#getUnspecifiedMotorType()} will be returned.
@@ -66,7 +85,7 @@ public class DcMotorStub implements DcMotor {
      */
     @Override
     public void setZeroPowerBehavior(ZeroPowerBehavior zeroPowerBehavior) {
-
+        this.zeroPowerBehavior = zeroPowerBehavior;
     }
 
     /**
@@ -76,7 +95,7 @@ public class DcMotorStub implements DcMotor {
      */
     @Override
     public ZeroPowerBehavior getZeroPowerBehavior() {
-        return null;
+        return this.zeroPowerBehavior;
     }
 
     /**
@@ -141,7 +160,7 @@ public class DcMotorStub implements DcMotor {
      */
     @Override
     public void setTargetPosition(int position) {
-
+        this.targetPos = position;
     }
 
     /**
@@ -152,7 +171,7 @@ public class DcMotorStub implements DcMotor {
      */
     @Override
     public int getTargetPosition() {
-        return 0;
+        return this.targetPos;
     }
 
     /**
@@ -177,7 +196,7 @@ public class DcMotorStub implements DcMotor {
      */
     @Override
     public int getCurrentPosition() {
-        return 0;
+        return currentPos;
     }
 
     /**
@@ -189,7 +208,7 @@ public class DcMotorStub implements DcMotor {
      */
     @Override
     public void setMode(RunMode mode) {
-
+        this.mode = mode;
     }
 
     /**
@@ -201,7 +220,7 @@ public class DcMotorStub implements DcMotor {
      */
     @Override
     public RunMode getMode() {
-        return null;
+        return this.mode;
     }
 
     /**
@@ -212,7 +231,7 @@ public class DcMotorStub implements DcMotor {
      */
     @Override
     public void setDirection(Direction direction) {
-
+        this.direction = direction;
     }
 
     /**
@@ -223,7 +242,7 @@ public class DcMotorStub implements DcMotor {
      */
     @Override
     public Direction getDirection() {
-        return null;
+        return this.direction;
     }
 
     /**
@@ -240,7 +259,7 @@ public class DcMotorStub implements DcMotor {
      */
     @Override
     public void setPower(double power) {
-
+        this.power = power;
     }
 
     /**
@@ -251,7 +270,7 @@ public class DcMotorStub implements DcMotor {
      */
     @Override
     public double getPower() {
-        return 0;
+        return this.power;
     }
 
     /**

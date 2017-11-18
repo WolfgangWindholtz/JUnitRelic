@@ -111,17 +111,17 @@ public abstract class Processor2 extends LinearOpMode {
         double angleWanted = target + heading;
 
         ref = bot.imu.getAngularOrientation();
-        double speed = turning(target, ref.firstAngle, angleWanted);
+        double speed = turning(ref.firstAngle, angleWanted);
         while(speed != 0 ){
             ref = bot.imu.getAngularOrientation();
-            speed = turning(target, ref.firstAngle, angleWanted);
+            speed = turning(ref.firstAngle, angleWanted);
             accelerate(speed);
             recordTelemetry(target, angleWanted, ref, speed);
         }
         accelerate(0);
     }
 
-    double turning(double target, double firstAngle, double angleWanted) {
+    double turning(double firstAngle, double angleWanted) {
         double error;
         double correction;
         double speed;
@@ -129,7 +129,7 @@ public abstract class Processor2 extends LinearOpMode {
 
         correction = Range.clip( error * P_TURN_COEFF,-1,1);
 
-        if(error <= HEADING_THRESHOLD){
+        if(Math.abs(error) <= HEADING_THRESHOLD){
             return 0;
         }
         else{
@@ -270,7 +270,9 @@ public abstract class Processor2 extends LinearOpMode {
     }
 
 
-    public void gotoColumn() {
+
+
+    /*public void gotoColumn() {
 
 
         if (bot.columnToScore == RelicRecoveryVuMark.RIGHT) {
@@ -290,9 +292,9 @@ public abstract class Processor2 extends LinearOpMode {
             bot.motorRB.setPower(-DRIVE_SPEED);
             bot.motorLB.setPower(DRIVE_SPEED);
         }
-    }
+    }*/
 
-    public void goPulses(int numOfCol) {
+    /*public void goPulses(int numOfCol) {
         int count = 0;
         while(count < numOfCol){
 
@@ -312,7 +314,7 @@ public abstract class Processor2 extends LinearOpMode {
 
 
 
-    }
+    }*/
 
     public void encoderDrive(double speed,
                              double rightFrontInches, double leftFrontInches,double leftBackInches, double rightBackInches,
@@ -383,6 +385,33 @@ public abstract class Processor2 extends LinearOpMode {
 
             sleep(250);   // optional pause after each move
         }
+
+
     }
+
+    public void lineUpcolumn(){
+
+        while(bot.sensorDistance1.getDistance(DistanceUnit.CM)<5.5){
+            bot.motorLF.setPower(.3);
+            bot.motorRF.setPower(.3);
+            bot.motorRB.setPower(-.3);
+            bot.motorLB.setPower(-.3);
+        }
+        while(bot.sensorDistance2.getDistance(DistanceUnit.CM)<5.5){
+            bot.motorLF.setPower(-.3);
+            bot.motorRF.setPower(-.3);
+            bot.motorRB.setPower(.3);
+            bot.motorLB.setPower(.3);
+        }
+        while(bot.sensorDistance1.getDistance(DistanceUnit.CM)<5.5){
+            bot.motorLF.setPower(.3);
+            bot.motorRF.setPower(.3);
+            bot.motorRB.setPower(-.3);
+            bot.motorLB.setPower(-.3);
+        }
+
+    }
+
+
 
 }

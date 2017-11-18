@@ -12,6 +12,6 @@ public class TestPulsePath extends Processor2{
     public void runOpMode() throws InterruptedException {
         bot.init(hardwareMap);
         waitForStart();
-        goPulses(3);
+        //goPulses(3);
     }
 }

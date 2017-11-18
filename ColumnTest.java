@@ -21,6 +21,6 @@ public class ColumnTest extends Processor2{
 
         bot.columnToScore = RelicRecoveryVuMark.CENTER;
 
-        gotoColumn();
+        //gotoColumn();
     }
 }

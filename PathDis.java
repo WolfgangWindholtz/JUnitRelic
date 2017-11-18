@@ -19,8 +19,8 @@ public class PathDis extends Processor2{
         waitForStart();
         while(opModeIsActive()){
             recordTelemetry(1,1,bot.imu.getAngularOrientation(),1);
-            telemetry.addData("Cm",bot.sensorDistance.getDistance(DistanceUnit.CM));
-            telemetry.addData("Mm",bot.sensorDistance.getDistance(DistanceUnit.MM));
+            //.addData("Cm",bot.sensorDistance.getDistance(DistanceUnit.CM));
+            //telemetry.addData("Mm",bot.sensorDistance.getDistance(DistanceUnit.MM));
         }
     }
 }

@@ -67,7 +67,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
  * Created by wolfie on 9/1/17.
  */
 
-public class Map {
+public class TeleMap {
     public BNO055IMU imu;
     HardwareMap hwMap = null;
     DcMotor motorLF;
@@ -85,22 +85,9 @@ public class Map {
 
     ModernRoboticsI2cColorSensor colorSensor = null;
 
-    int cameraMonitorViewId;
-    VuforiaTrackables relicTrackables;
-    VuforiaTrackable relicTemplate;
 
     RelicRecoveryVuMark columnToScore;
 
-    double tX;
-    double tY;
-    double tZ;
-
-    double rX;
-    double rY;
-    double rZ;
-    RelicRecoveryVuMark vuMark;
-
-    VuforiaLocalizer vuforia;
 
     ElapsedTime runtime = new ElapsedTime();
 
@@ -135,8 +122,6 @@ public class Map {
         colorSensor = hwMap.get(ModernRoboticsI2cColorSensor.class,"colorSensor");
 
 
-        cameraMonitorViewId = hwMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hwMap.appContext.getPackageName());
-        VuforiaLocalizer.Parameters param = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
 
         motorLF.setDirection(DcMotor.Direction.FORWARD);
         motorRB.setDirection(DcMotor.Direction.FORWARD);
@@ -145,19 +130,6 @@ public class Map {
         slideMotor.setDirection(DcMotor.Direction.FORWARD);
 
 
-        param.vuforiaLicenseKey = "AfbM7ND/////AAAAGUXqRoQRDEkKupX0Zkdd3WhqVs68pW5fggxtJc7rlwOAI1WWfs5J4APPWl3FElqMVRdxwlDg3Rcx2DycCogRQGhyOZ6Gakktkgk22k/vy9q8OGLvDvGQQf6zOW3Qrs4hkn2qDWA4r5pDz3W8Aoh97+RCVTiVstECpe1mp97YGrYc5EeyW68aml6lirGr43motonPrXChztqG/3WpqYfFRFIsc+g+leI/ihWuAA1ZUFDYQjRV94GRl66w31kHcGtm+j2BKUlcQsVPmhizh+396O5r4yGkTcLBAZxyuyGm+lerwPJ9DWrkCiwVOtnCVqLUkfAoAjpuXuXEtW4JTlwqYmKVTuVDIg4Wcm7c8vLEBV/4";
-
-        param.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
-        this.vuforia = ClassFactory.createVuforiaLocalizer(param);
-
-        relicTrackables = vuforia.loadTrackablesFromAsset("RelicVuMark");
-        relicTemplate = relicTrackables.get(0);
-        relicTemplate.setName("relicVuMarkTemplate");
-
-        relicTrackables.activate();
-        colorSensor.enableLed(true);
-
-        vuMark = RelicRecoveryVuMark.from(relicTemplate);
 
         slideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
@@ -166,17 +138,5 @@ public class Map {
 
     }
 
-    public void stubbedInit(){
-        motorLB = new DcMotorStub();
-        motorRB = new DcMotorStub();
-        motorRF = new DcMotorStub();
-        motorLF = new DcMotorStub();
-        slideMotor = new DcMotorStub();
-
-        motorLF.setDirection(DcMotor.Direction.FORWARD);
-        motorRB.setDirection(DcMotor.Direction.FORWARD);
-        motorRF.setDirection(DcMotor.Direction.FORWARD);
-        motorLB.setDirection(DcMotor.Direction.FORWARD);
-    }
 
 }
