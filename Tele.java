@@ -103,7 +103,7 @@ public class Tele extends OpMode{
     }
 
     public void fingersOpen(){
-        bot.relicFingers.setPosition(0);
+        bot.relicFingers.setPosition(.6);
     }
 
     public void fingersClose(){
