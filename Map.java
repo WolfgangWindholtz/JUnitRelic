@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
@@ -79,7 +80,9 @@ public class Map {
     Servo glyphServo1;
     Servo glyphServo2;
     Servo jewelServo;
-    Servo test;
+
+    DistanceSensor disSensor1;
+    DistanceSensor disSensor2;
 
     ModernRoboticsI2cRangeSensor rangeSensor = null;
 
@@ -133,6 +136,9 @@ public class Map {
 
         rangeSensor = hwMap.get(ModernRoboticsI2cRangeSensor.class,"rangeSensor");
         colorSensor = hwMap.get(ModernRoboticsI2cColorSensor.class,"colorSensor");
+
+        disSensor1 = hwMap.get(DistanceSensor.class, "disSensor1");
+        disSensor2 = hwMap.get(DistanceSensor.class, "disSensor2");
 
 
         cameraMonitorViewId = hwMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hwMap.appContext.getPackageName());

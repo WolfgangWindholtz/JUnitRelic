@@ -75,11 +75,16 @@ public class TeleMap {
     DcMotor motorRF;
     DcMotor motorRB;
     DcMotor slideMotor;
+    DcMotor relicMotor;
+
 
     Servo glyphServo1;
     Servo glyphServo2;
     Servo jewelServo;
-    Servo test;
+    Servo relicFingers;
+    Servo relicWrist;
+
+
 
     ModernRoboticsI2cRangeSensor rangeSensor = null;
 
@@ -101,12 +106,16 @@ public class TeleMap {
         motorLF = hwMap.dcMotor.get("motorLF");
         motorRF = hwMap.dcMotor.get("motorRF");
         motorRB = hwMap.dcMotor.get("motorRB");
+        relicMotor = hwMap.dcMotor.get("relicMotor");
+
         slideMotor = hwMap.dcMotor.get("slideMotor");
         //motorLB.setDirection(DcMotor.Direction.REVERSE);
         //^^^^^^^^^^^^^^^^^^^^^^^^^R^RmotorRF.setDirection(DcMotor.Direction.REVERSE);
         glyphServo1 = hwMap.servo.get("glyphServo1");
         glyphServo2 = hwMap.servo.get("glyphServo2");
         jewelServo = hwMap.servo.get("jewelServo");
+        relicFingers = hwMap.servo.get("relicFingers");
+        relicWrist = hwMap.servo.get("relicWrist");
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;

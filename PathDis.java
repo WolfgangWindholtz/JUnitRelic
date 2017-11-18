@@ -11,7 +11,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
  */
 @Autonomous(name = "Auto Dis" , group ="Concept")
 
-public class PathDis extends Processor2{
+public class PathDis extends Processor{
 
     @Override
     public void runOpMode() throws InterruptedException {

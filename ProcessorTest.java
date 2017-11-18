@@ -10,6 +10,7 @@ import static org.junit.Assert.*;
 
 
 public class ProcessorTest extends TestCase {
+    MyProcessor unit = new MyProcessor();
     @org.junit.Test
     public void testTrue() {
         assertEquals(true, true);
@@ -51,5 +52,11 @@ public class ProcessorTest extends TestCase {
         assertEquals(-15, actual);
 
     }
-
+    @org.junit.Test
+    public void testGoAngle() {
+        unit.stubIT();
+        unit.goAngle(2,20);
+        expected
+        assertEquals();
+    }
 }

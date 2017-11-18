@@ -4,7 +4,7 @@ package org.firstinspires.ftc.teamcode;
  * Created by wolfie on 11/17/17.
  */
 
-public class TURN extends Processor2{
+public class TURN extends Processor{
     /**
      * Override this method and place your code here.
      * <p>

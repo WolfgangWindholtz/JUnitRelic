@@ -2,8 +2,9 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
 import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -13,40 +14,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
-import org.firstinspires.ftc.robotcontroller.external.samples.ConceptVuforiaNavigation;
-import org.firstinspires.ftc.robotcore.external.ClassFactory;
-import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
-import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
-import org.firstinspires.ftc.robotcore.external.navigation.VuMarkInstanceId;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.util.Range;
-import com.qualcomm.robotcore.util.ElapsedTime;
-
-
-import org.firstinspires.ftc.robotcore.external.ClassFactory;
-import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
-import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
-import org.firstinspires.ftc.robotcore.external.navigation.VuMarkInstanceId;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 /**
  * Created by wolfie on 10/20/17.
  */
@@ -462,8 +429,83 @@ public abstract class Processor extends LinearOpMode {
         runtime.reset();
 
     }
+    public void lineUpcolumn(){
+
+        while(bot.disSensor1.getDistance(DistanceUnit.CM)<5.5){
+            bot.motorLF.setPower(.3);
+            bot.motorRF.setPower(.3);
+            bot.motorRB.setPower(-.3);
+            bot.motorLB.setPower(-.3);
+        }
+        while(bot.disSensor2.getDistance(DistanceUnit.CM)<5.5){
+            bot.motorLF.setPower(-.3);
+            bot.motorRF.setPower(-.3);
+            bot.motorRB.setPower(.3);
+            bot.motorLB.setPower(.3);
+        }
+        while(bot.disSensor1.getDistance(DistanceUnit.CM)<5.5){
+            bot.motorLF.setPower(.3);
+            bot.motorRF.setPower(.3);
+            bot.motorRB.setPower(-.3);
+            bot.motorLB.setPower(-.3);
+        }
+
+    }
 
 
+    public void goAngle(double dist, double angle) {
+        stopBotMotors();
+        enterEnc();
+        enterPosenc();
+        double angel = Math.PI*angle/180;
+        double x = Math.cos(angel);
+        double y = Math.sin(angel);
+        double distance = dist / (OMNI_WHEEL_CIRCUMFERENCE);
+        double ticks = 1120 * distance;
+        int ticksRF = (int)Math.round(ticks*.7*(y-x))+bot.motorRF.getCurrentPosition();
+        int ticksLF = (int)Math.round(ticks*.7*(-y-x))+bot.motorLF.getCurrentPosition();
+        int ticksLB = (int)Math.round(ticks*.7*(-y+x))+bot.motorLB.getCurrentPosition();
+        int ticksRB = (int)Math.round(ticks*.7*(y+x))+bot.motorRB.getCurrentPosition();
+        bot.motorLF.setTargetPosition(ticksLF);
+        bot.motorRF.setTargetPosition(ticksRF);
+        bot.motorRB.setTargetPosition(ticksRB);
+        bot.motorLB.setTargetPosition(ticksLB);
+        bot.motorRF.setPower(.7 * (y - x));
+        bot.motorLF.setPower(.7 * (-y - x));
+        bot.motorLB.setPower(.7 * (-y + x));
+        bot.motorRB.setPower(.7 * (y + x));
+        //sleep(250);
+    }
 
+
+    public void resetEnc(){
+        bot.motorRF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        bot.motorLF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        bot.motorLB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        bot.motorRB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    }
+    public void enterEnc(){
+        bot.motorRF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        bot.motorLF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        bot.motorLB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        bot.motorRB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+    public void enterPosenc(){
+        bot.motorLF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        bot.motorRF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        bot.motorRB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        bot.motorLB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    }
+    public void stopBotMotors(){
+        bot.motorRF.setPower(0);
+        bot.motorLF.setPower(0);
+        bot.motorLB.setPower(0);
+        bot.motorRB.setPower(0);
+
+    }
+
+    public void stubIT(){
+        bot.stubbedInit();
+    }
 
 }

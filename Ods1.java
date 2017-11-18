@@ -11,7 +11,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
  */
 @Autonomous(name = "Auto ODS" , group ="Concept")
 
-public class Ods1 extends Processor2{
+public class Ods1 extends Processor{
 
     /**
      * Override this method and place your code here.
@@ -28,8 +28,8 @@ public class Ods1 extends Processor2{
         waitForStart();
 
         while(opModeIsActive()){
-            telemetry.addData("ods 1",bot.sensorDistance1.getDistance(DistanceUnit.CM));
-            telemetry.addData("ods 2",bot.sensorDistance2.getDistance(DistanceUnit.CM));
+            telemetry.addData("ods 1",bot.disSensor1.getDistance(DistanceUnit.CM));
+            telemetry.addData("ods 2",bot.disSensor2.getDistance(DistanceUnit.CM));
             telemetry.update();
 
         }

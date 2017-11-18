@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
  */
 @Autonomous(name = "Auto Pulse 3  " , group ="Concept")
 
-public class TestPulsePath extends Processor2{
+public class TestPulsePath extends Processor{
     @Override
     public void runOpMode() throws InterruptedException {
         bot.init(hardwareMap);
