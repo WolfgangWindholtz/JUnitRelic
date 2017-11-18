@@ -56,7 +56,11 @@ public class ProcessorTest extends TestCase {
     public void testGoAngle() {
         unit.stubIT();
         unit.goAngle(2,20);
-        expected
-        assertEquals();
+
+        Map expected = new Map();
+        expected.stubbedInit();
+        expected.motorRB.setPower(1);
+        expected.motorLB.setPower(1);
+
     }
 }

@@ -26,11 +26,11 @@ public class FullAutoRedPerp extends Processor{
 
         //forward(300);
         // get off the stone
-        encoderDrive(DRIVE_SPEED,24,24,-24,-24,10);
-
+        goAngle(20, 90 );
 
 
         gotoColumnLeft();
+        lineUpcolumn();
         score();
 
     }

@@ -30,6 +30,7 @@ public class DcMotorStub implements DcMotor {
         this.direction = Direction.FORWARD;
     }
 
+
     /**
      * Returns the assigned type for this motor. If no particular motor type has been
      * configured, then {@link MotorConfigurationType#getUnspecifiedMotorType()} will be returned.

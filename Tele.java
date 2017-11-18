@@ -32,6 +32,14 @@ public class Tele extends OpMode{
         zpow = gamepad1.right_stick_x;//direction not actually
         ypow = gamepad1.left_stick_y;// variable names are incoorect
         xpow = gamepad1.left_stick_x;
+        if(Math.abs(ypow)<.05){
+            ypow = 0;
+
+        }
+        if(Math.abs(xpow)<.05){
+            xpow = 0;
+
+        }
     }
 
     @Override
@@ -43,14 +51,7 @@ public class Tele extends OpMode{
         double aPair = mag * Math.cos(theta - Math.PI/4);
         double bPair = mag * Math.sin(theta - Math.PI/4);
 
-        if(Math.abs(ypow)<.05){
-            ypow = 0;
 
-        }
-        if(Math.abs(xpow)<.05){
-            xpow = 0;
-
-        }
 
         bot.motorLF.setPower(0.7*(bPair-zpow));
         bot.motorRF.setPower(0.7*(-aPair-zpow));
@@ -110,13 +111,12 @@ public class Tele extends OpMode{
     }
 
     public void wristUp() {
-        bot.relicWrist.setPosition(.75);
+        bot.relicWrist.setPosition(.85);
     }
 
     public void wristDown() {
         bot.relicWrist.setPosition(.5);
     }
-
     public void gripGlyph() {
         bot.glyphServo1.setPosition(0.69);
         bot.glyphServo2.setPosition(0.35);

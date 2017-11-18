@@ -27,14 +27,15 @@ public class FullAutoRedParallel extends Processor{
         //forward(300);
         // go in front of the cyrptograph
 
-        encoderDrive(.4,10,-10,-10,5,10);
+        goAngle(20,180);
 
-
-        turn(-90);
+        turn(180);
 
         encoderDrive(.4,5,-5,-5,5,10);
 
         gotoColumnLeft();
+        lineUpcolumn();
+
         score();
 
     }

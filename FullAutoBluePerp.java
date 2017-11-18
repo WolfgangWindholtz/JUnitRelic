@@ -27,12 +27,13 @@ public class FullAutoBluePerp extends Processor{
 
         //forward(300);
         // get off the stone\\
-        encoderDrive(DRIVE_SPEED,24,-24,-24,24,10);
+        goAngle(20,90);
 
-
-        turn(180);
+        turn(90);
 
         gotoColumnRight();// need to come at the column from the right for this to work
+        lineUpcolumn();
+
         score();
 
     }
