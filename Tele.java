@@ -24,8 +24,7 @@ public class Tele extends OpMode{
     @Override
     public void init() {
         bot.init(hardwareMap);
-        bot.glyphServo1.setPosition(0.4);
-        bot.glyphServo2.setPosition(0.6);
+
     }
 
     public void readGamePad() {
@@ -111,11 +110,11 @@ public class Tele extends OpMode{
     }
 
     public void wristUp() {
-        bot.relicWrist.setPosition(.85);
+        bot.relicWrist.setPosition(.7);
     }
 
     public void wristDown() {
-        bot.relicWrist.setPosition(.5);
+        bot.relicWrist.setPosition(0);
     }
     public void gripGlyph() {
         bot.glyphServo1.setPosition(0.69);

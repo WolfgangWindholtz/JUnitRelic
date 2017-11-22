@@ -30,7 +30,6 @@ public class FullAutoRedPerp extends Processor{
 
 
         gotoColumnLeft();
-        lineUpcolumn();
         score();
 
     }

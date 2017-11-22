@@ -28,8 +28,11 @@ public class Ods1 extends Processor{
         waitForStart();
 
         while(opModeIsActive()){
-            telemetry.addData("ods 1",bot.disSensor1.getDistance(DistanceUnit.CM));
-            telemetry.addData("ods 2",bot.disSensor2.getDistance(DistanceUnit.CM));
+
+            telemetry.addData("range", bot.rangeSensor.getDistance(DistanceUnit.CM));
+            telemetry.addData("colorsß blue", bot.colorSensor.blue());
+            telemetry.addData("colorsß red", bot.colorSensor.red());
+
             telemetry.update();
 
         }

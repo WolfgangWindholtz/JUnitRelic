@@ -32,7 +32,6 @@ public class FullAutoBluePerp extends Processor{
         turn(90);
 
         gotoColumnRight();// need to come at the column from the right for this to work
-        lineUpcolumn();
 
         score();
 

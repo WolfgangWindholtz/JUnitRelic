@@ -3,11 +3,11 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 /**
- * Created by wolfie on 11/17/17.
+ * Created by wolfie on 11/22/17.
  */
-@Autonomous(name = "turn te  " , group ="Concept")
+@Autonomous(name = "Serco te  " , group ="Concept")
 
-public class TURN extends Processor{
+public class ServoTest extends Processor{
     /**
      * Override this method and place your code here.
      * <p>
@@ -21,9 +21,23 @@ public class TURN extends Processor{
         bot.init(hardwareMap);
         waitForStart();
 
-        turn(270);
+        bot.jewelServo.setPosition(.2);
+        sleep(2000);
+        bot.jewelServo.setPosition(.4);
+        sleep(2000);
+        bot.jewelServo.setPosition(.6);
+        sleep(2000);
+        bot.jewelServo.setPosition(.8);
+        sleep(2000);
 
-        turn(-100);
+        bot.jewelServo.setPosition(1);
+        sleep(2000);
+
+        bot.jewelServo.setPosition(0);
+        sleep(2000);
+
+
+
 
 
     }

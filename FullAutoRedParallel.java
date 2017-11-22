@@ -34,7 +34,6 @@ public class FullAutoRedParallel extends Processor{
         encoderDrive(.4,5,-5,-5,5,10);
 
         gotoColumnLeft();
-        lineUpcolumn();
 
         score();
 

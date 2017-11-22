@@ -332,4 +332,20 @@ public class DcMotorStub implements DcMotor {
     public void close() {
 
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof DcMotorStub))
+            return false;
+        DcMotorStub aObj = (DcMotorStub) obj;
+        if( this.power == aObj.power &&
+                this.targetPos ==  aObj.targetPos&&
+                this.currentPos == aObj.currentPos
+                )
+            return true;
+        return false;
+
+    }
+
+
 }

@@ -81,8 +81,7 @@ public class Map {
     Servo glyphServo2;
     Servo jewelServo;
 
-    DistanceSensor disSensor1;
-    DistanceSensor disSensor2;
+
 
     ModernRoboticsI2cRangeSensor rangeSensor = null;
 
@@ -125,20 +124,18 @@ public class Map {
         jewelServo = hwMap.servo.get("jewelServo");
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
         parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
-        parameters.loggingEnabled      = true;
-        parameters.loggingTag          = "IMU";
+        parameters.loggingEnabled = true;
+        parameters.loggingTag = "IMU";
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
 
         imu.initialize(parameters);
 
-        rangeSensor = hwMap.get(ModernRoboticsI2cRangeSensor.class,"rangeSensor");
-        colorSensor = hwMap.get(ModernRoboticsI2cColorSensor.class,"colorSensor");
+        rangeSensor = hwMap.get(ModernRoboticsI2cRangeSensor.class, "rangeSensor");
+        colorSensor = hwMap.get(ModernRoboticsI2cColorSensor.class, "colorSensor");
 
-        disSensor1 = hwMap.get(DistanceSensor.class, "disSensor1");
-        disSensor2 = hwMap.get(DistanceSensor.class, "disSensor2");
 
 
         cameraMonitorViewId = hwMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hwMap.appContext.getPackageName());
@@ -167,12 +164,15 @@ public class Map {
 
         slideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        jewelServo.setPosition(.5);
+        jewelServo.setPosition(.4);
+
+        glyphServo1.setPosition(0.4);
+        glyphServo2.setPosition(0.6);
 
 
     }
 
-    public void stubbedInit(){
+    public void stubbedInit() {
         motorLB = new DcMotorStub();
         motorRB = new DcMotorStub();
         motorRF = new DcMotorStub();
@@ -185,4 +185,19 @@ public class Map {
         motorLB.setDirection(DcMotor.Direction.FORWARD);
     }
 
+    @Override
+    public boolean equals(Object object) {
+        if (!(object instanceof Map))
+            return false;
+        Map aObj = (Map) object;
+        if (this.motorLB.equals(aObj.motorLB) &&
+                this.motorRB.equals(aObj.motorRB) &&
+                this.motorRF.equals(aObj.motorRF) &&
+                this.motorLF.equals(aObj.motorLF))
+            return true;
+        return false;
+
+    }
 }
+
+

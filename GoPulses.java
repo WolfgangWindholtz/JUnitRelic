@@ -2,12 +2,14 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-/**
- * Created by wolfie on 11/17/17.
- */
-@Autonomous(name = "turn te  " , group ="Concept")
+import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 
-public class TURN extends Processor{
+/**
+ * Created by wolfie on 11/21/17.
+ */
+@Autonomous(name = "GoColumn" , group ="Concept")
+
+public class GoPulses extends Processor{
     /**
      * Override this method and place your code here.
      * <p>
@@ -21,10 +23,9 @@ public class TURN extends Processor{
         bot.init(hardwareMap);
         waitForStart();
 
-        turn(270);
 
-        turn(-100);
-
+        bot.columnToScore = RelicRecoveryVuMark.CENTER;
+        gotoColumnLeft();
 
     }
 }
