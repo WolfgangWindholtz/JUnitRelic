@@ -113,7 +113,7 @@ public class TeleMap {
         //^^^^^^^^^^^^^^^^^^^^^^^^^R^RmotorRF.setDirection(DcMotor.Direction.REVERSE);
         glyphServo1 = hwMap.servo.get("glyphServo1");
         glyphServo2 = hwMap.servo.get("glyphServo2");
-        jewelServo = hwMap.servo.get("jewelServo");
+        //jewelServo = hwMap.servo.get("jewelServo");
         relicFingers = hwMap.servo.get("relicFingers");
         relicWrist = hwMap.servo.get("relicWrist");
 
@@ -138,13 +138,18 @@ public class TeleMap {
         motorLB.setDirection(DcMotor.Direction.FORWARD);
         slideMotor.setDirection(DcMotor.Direction.FORWARD);
 
+        motorLB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorLF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorRF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorRB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        relicMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
         slideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         jewelServo.setPosition(.5);
-        glyphServo1.setPosition(0.4);
-        glyphServo2.setPosition(0.6);
+        //glyphServo1.setPosition(0.4);
+        //glyphServo2.setPosition(0.6);
 
 
     }

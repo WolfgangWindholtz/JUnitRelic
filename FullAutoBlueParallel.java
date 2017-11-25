@@ -29,13 +29,14 @@ public class FullAutoBlueParallel extends Processor{
         // go in front of the cyrptograph
         //opposite direction of blue
 
-        goAngle(20, 180);
+        goAngle(35, 180);
+        sleep(1000);
         turn(180);
 
+        sleep(1000);
         goAngle(5,90);
-        //gotoColumnRight();
+        gotoColumnRight();
 
-
-        //score();
+        score();
     }
 }

@@ -36,76 +36,6 @@ public abstract class Processor extends LinearOpMode {
     static final double COUNTS_PER_INCH = ((COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1415));
 
-    public void encoderDrive(double speed,
-                             double rightFrontInches, double leftFrontInches,double leftBackInches, double rightBackInches,
-                             double timeoutS) {
-        int newLeftFrontTarget;
-        int newRightBackTarget;
-        int newRightFrontTarget;
-        int newLeftBackTarget;
-
-        // Ensure that the opmode is still active
-        if (opModeIsActive()) {
-
-            // Determine new target position, and pass to motor controller
-            newLeftFrontTarget = bot.motorLF.getCurrentPosition() + (int)(leftFrontInches * COUNTS_PER_INCH);
-            newRightFrontTarget = bot.motorRF.getCurrentPosition() + (int)(rightFrontInches * COUNTS_PER_INCH);
-            newRightBackTarget = bot.motorRB.getCurrentPosition() + (int)(rightBackInches * COUNTS_PER_INCH);
-            newLeftBackTarget = bot.motorLB.getCurrentPosition() + (int)(leftBackInches * COUNTS_PER_INCH);
-            bot.motorLF.setTargetPosition(newLeftFrontTarget);
-            bot.motorRF.setTargetPosition(newRightFrontTarget);
-            bot.motorRB.setTargetPosition(newRightBackTarget);
-            bot.motorLB.setTargetPosition(newLeftBackTarget);
-
-            // Turn On RUN_TO_POSITION
-            bot.motorLF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            bot.motorRF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            bot.motorLB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            bot.motorRB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-            // reset the timeout time and start motion.
-            runtime.reset();
-            bot.motorLF.setPower(Math.abs(speed));
-            bot.motorRF.setPower(Math.abs(speed));
-            bot.motorLB.setPower(Math.abs(speed));
-            bot.motorRB.setPower(Math.abs(speed));
-
-            // keep looping while we are still active, and there is time left, and both motors are running.
-            // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
-            // its target position, the motion will stop.  This is "safer" in the event that the robot will
-            // always end the motion as soon as possible.
-            // However, if you require that BOTH motors have finished their moves before the robot continues
-            // onto the next step, use (isBusy() || isBusy()) in the loop test.
-            while (opModeIsActive() &&
-                    (runtime.seconds() < timeoutS) &&
-                    (bot.motorLB.isBusy() && bot.motorRB.isBusy()&&bot.motorRF.isBusy()&&bot.motorLF.isBusy())) {
-
-                // Display it for the driver.
-                telemetry.addData("Path1",  "Running to %7d :%7d", newLeftBackTarget,  newLeftFrontTarget,newRightBackTarget,newRightFrontTarget);
-                telemetry.addData("Path2",  "Running at %7d :%7d",
-                        bot.motorLB.getCurrentPosition(),
-                        bot.motorLF.getCurrentPosition(),
-                        bot.motorRB.getCurrentPosition(),
-                        bot.motorRF.getCurrentPosition());
-                telemetry.update();
-            }
-
-            // Stop all motion;
-            bot.motorLB.setPower(0);
-            bot.motorLF.setPower(0);
-            bot.motorRB.setPower(0);
-            bot.motorRF.setPower(0);
-
-
-            // Turn off RUN_TO_POSITION
-            bot.motorLF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            bot.motorRF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            bot.motorRB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            bot.motorLB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-            sleep(250);   // optional pause after each move
-        }
-    }
 
     public void checkVu() {
 
@@ -199,7 +129,7 @@ public abstract class Processor extends LinearOpMode {
         error = angleWanted - firstAngle;
         while (error > 180)
             error -= 360;
-        while (error <= -180)
+        while (error < -180)
             error += 360;
 
         correction = Range.clip( error * P_TURN_COEFF,-1,1);
@@ -224,6 +154,9 @@ public abstract class Processor extends LinearOpMode {
         telemetry.addData("speed ",speed);
         telemetry.addData("error", angleWanted - ref.firstAngle);
         telemetry.addData("angleWanted", angleWanted);
+        telemetry.addData("motor power", bot.motorLF.getPower());
+
+
 
         telemetry.update();
     }
@@ -306,7 +239,8 @@ public abstract class Processor extends LinearOpMode {
 
 
 
-    public void gotoColumnRight() {// the direction approaching the cryptobox changes depending on the side
+    public void gotoColumnRight() {
+        // the direction approaching the cryptobox changes depending on the side
 
 
         if (bot.columnToScore == RelicRecoveryVuMark.LEFT) {
@@ -318,23 +252,10 @@ public abstract class Processor extends LinearOpMode {
         if (bot.columnToScore == RelicRecoveryVuMark.RIGHT) {
             goPulsesPrep(3);
         }
-        runtime.reset();
-        while(runtime.milliseconds() < 250){
-            bot.motorLF.setPower(-.3);
-            bot.motorRF.setPower(-.3);
-            bot.motorRB.setPower(.3);
-            bot.motorLB.setPower(.3);
-        }
-        runtime.reset();
 
-        while(bot.rangeSensor.getDistance(DistanceUnit.CM)>25){
-            bot.motorLF.setPower(.3);
-            bot.motorRF.setPower(.3);
-            bot.motorRB.setPower(-.3);
-            bot.motorLB.setPower(-.3);
-        }
     }
-    public void gotoColumnLeft() {// the direction approaching the cryptobox changes depending on the side
+    public void gotoColumnLeft() {
+        // the direction approaching the cryptobox changes depending on the side
 
 
         if (bot.columnToScore == RelicRecoveryVuMark.RIGHT) {
@@ -346,26 +267,12 @@ public abstract class Processor extends LinearOpMode {
         if (bot.columnToScore == RelicRecoveryVuMark.LEFT) {
             goPulses(3);
         }
-        runtime.reset();
 
-        while(runtime.milliseconds() < 250){
-            bot.motorLF.setPower(.3);
-            bot.motorRF.setPower(.3);
-            bot.motorRB.setPower(-.3);
-            bot.motorLB.setPower(-.3);
-        }
-        runtime.reset();
-
-        while(bot.rangeSensor.getDistance(DistanceUnit.CM)>25){
-            bot.motorLF.setPower(-.3);
-            bot.motorRF.setPower(-.3);
-            bot.motorRB.setPower(.3);
-            bot.motorLB.setPower(.3);
-        }
         stopBotMotors();
     }
     public void goPulses(int numOfCol) {
         int count = 0;
+
         while(count < numOfCol){
 
             bot.motorLF.setPower(.3);
@@ -373,15 +280,17 @@ public abstract class Processor extends LinearOpMode {
             bot.motorRB.setPower(-.3);
             bot.motorLB.setPower(-.3);
 
-            if (bot.rangeSensor.getDistance(DistanceUnit.CM)<25) {
+            if (bot.rangeSensor.getDistance(DistanceUnit.CM)<10) {
                 count++;
-                runtime.reset();
 
-                while(runtime.milliseconds() < 250){
-                    bot.motorLF.setPower(.3);
-                    bot.motorRF.setPower(.3);
-                    bot.motorRB.setPower(-.3);
-                    bot.motorLB.setPower(-.3);
+                if(numOfCol > count) {
+                    runtime.reset();
+                    while (runtime.milliseconds() < 350) {
+                        bot.motorLF.setPower(.3);
+                        bot.motorRF.setPower(.3);
+                        bot.motorRB.setPower(-.3);
+                        bot.motorLB.setPower(-.3);
+                    }
                 }
                 runtime.reset();
                 // clear the column so the same column is not counted three time
@@ -399,17 +308,19 @@ public abstract class Processor extends LinearOpMode {
             bot.motorRB.setPower(.3);
             bot.motorLB.setPower(.3);
 
-            if (bot.rangeSensor.getDistance(DistanceUnit.CM)<25) {
+            if (bot.rangeSensor.getDistance(DistanceUnit.CM)<10) {
                 count++;
-                runtime.reset();
+                if(numOfCol > count) {
+                    runtime.reset();
 
-                while(runtime.milliseconds() < 250){
-                    bot.motorLF.setPower(-.3);
-                    bot.motorRF.setPower(-.3);
-                    bot.motorRB.setPower(.3);
-                    bot.motorLB.setPower(.3);
+                    while (runtime.milliseconds() < 350) {
+                        bot.motorLF.setPower(-.3);
+                        bot.motorRF.setPower(-.3);
+                        bot.motorRB.setPower(.3);
+                        bot.motorLB.setPower(.3);
+                    }
+                    runtime.reset();
                 }
-                runtime.reset();
                  // clear the column so the same column is not counted three time
             }
             telemetry.addData("count",count );
@@ -417,41 +328,32 @@ public abstract class Processor extends LinearOpMode {
         }
     }
 
-    public void score() throws InterruptedException {
+    public void score() {
         bot.glyphServo1.setPosition(0.4);
         bot.glyphServo2.setPosition(0.6);
-        wait(500);
+        sleep(1000);
 
-        goAngle(5,0);
-
-        runtime.reset();
-
-        while(runtime.milliseconds() < 1000){
-            bot.motorLF.setPower(DRIVE_SPEED);
-            bot.motorRF.setPower(-DRIVE_SPEED);
-            bot.motorRB.setPower(-DRIVE_SPEED);
-            bot.motorLB.setPower(DRIVE_SPEED);
-
-        }
-        runtime.reset();
+        goAngle(5,90);
+        sleep(1000);
+        goAngle(5,-90);
+        sleep(1000);
 
     }
 
 
 
     public void goAngle(double dist, double angle) {
-        stopBotMotors();
-        enterEnc();
+        resetEnc();
         enterPosenc();
         double angel = Math.PI*angle/180;
         double x = Math.cos(angel);
         double y = Math.sin(angel);
         double distance = dist / (OMNI_WHEEL_CIRCUMFERENCE);
         double ticks = 1120 * distance;
-        int ticksRF = (int)Math.round(ticks*.7*(y-x))+bot.motorRF.getCurrentPosition();
-        int ticksLF = (int)Math.round(ticks*.7*(-y-x))+bot.motorLF.getCurrentPosition();
-        int ticksLB = (int)Math.round(ticks*.7*(-y+x))+bot.motorLB.getCurrentPosition();
-        int ticksRB = (int)Math.round(ticks*.7*(y+x))+bot.motorRB.getCurrentPosition();
+        int ticksRF = (int)Math.round(ticks*Math.signum(y-x));
+        int ticksLF = (int)Math.round(ticks*Math.signum(-y-x));
+        int ticksLB = (int)Math.round(ticks*Math.signum(-y+x));
+        int ticksRB = (int)Math.round(ticks*Math.signum(y+x));
         bot.motorLF.setTargetPosition(ticksLF);
         bot.motorRF.setTargetPosition(ticksRF);
         bot.motorRB.setTargetPosition(ticksRB);
@@ -478,8 +380,7 @@ public abstract class Processor extends LinearOpMode {
             telemetry.update();
         }
 
-        stopBotMotors();
-
+        //stopBotMotors();
 
         //sleep(250);
     }

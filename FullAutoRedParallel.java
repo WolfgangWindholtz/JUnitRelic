@@ -18,8 +18,9 @@ public class FullAutoRedParallel extends Processor{
 
         checkVu();
 
-        bot.glyphServo1.setPosition(0.47);
-        bot.glyphServo2.setPosition(0.429);
+
+        bot.glyphServo1.setPosition(0.69);
+        bot.glyphServo2.setPosition(0.35);
         sleep(1000);
 
         knockJewel(true);
@@ -27,11 +28,12 @@ public class FullAutoRedParallel extends Processor{
         //forward(300);
         // go in front of the cyrptograph
 
-        goAngle(20,180);
+        goAngle(35,0);
 
         turn(180);
 
-        encoderDrive(.4,5,-5,-5,5,10);
+
+        goAngle(5,90);
 
         gotoColumnLeft();
 

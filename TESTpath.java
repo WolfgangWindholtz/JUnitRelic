@@ -3,11 +3,11 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 /**
- * Created by wolfie on 11/17/17.
+ * Created by wolfie on 11/22/17.
  */
-@Autonomous(name = " raawrrrr  " , group ="Concept")
+@Autonomous(name = "tesy  te  " , group ="Concept")
 
-public class TURN extends Processor{
+public class TESTpath extends Processor{
     /**
      * Override this method and place your code here.
      * <p>
@@ -21,9 +21,8 @@ public class TURN extends Processor{
         bot.init(hardwareMap);
         waitForStart();
 
-        goPulses(3);
 
-
+        gotoColumnLeft();
 
     }
 }

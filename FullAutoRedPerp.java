@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 /**
  * Created by wolfie on 9/23/17.
  */
-@Autonomous(name = "FullAutoRedPrep" , group ="Concept")
+@Autonomous(name = "FullAutoRedPerp" , group ="Concept")
 
 public class FullAutoRedPerp extends Processor{
 
@@ -18,16 +18,19 @@ public class FullAutoRedPerp extends Processor{
 
         checkVu();
 
-        bot.glyphServo1.setPosition(0.47);
-        bot.glyphServo2.setPosition(0.429);
-        sleep(500);
+        bot.glyphServo1.setPosition(0.69);
+        bot.glyphServo2.setPosition(0.35);
+        sleep(1000);
 
         knockJewel(true);
 
         //forward(300);
         // get off the stone
-        goAngle(20, 90 );
+        goAngle(35, 0 );
 
+        turn(180);
+
+        goAngle(5,90);
 
         gotoColumnLeft();
         score();

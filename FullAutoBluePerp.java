@@ -19,17 +19,17 @@ public class FullAutoBluePerp extends Processor{
         checkVu();
 
 
-        bot.glyphServo1.setPosition(0.47);
-        bot.glyphServo2.setPosition(0.429);
+        bot.glyphServo1.setPosition(0.69);
+        bot.glyphServo2.setPosition(0.35);
         sleep(500);
 
         knockJewel(false);
 
         //forward(300);
         // get off the stone\\
-        goAngle(20,90);
+        goAngle(65,180);
 
-        turn(90);
+        turn(-90);
 
         gotoColumnRight();// need to come at the column from the right for this to work
 

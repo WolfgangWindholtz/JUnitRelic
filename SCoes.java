@@ -5,9 +5,9 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 /**
  * Created by wolfie on 11/17/17.
  */
-@Autonomous(name = " raawrrrr  " , group ="Concept")
+@Autonomous(name = "SCoes te  " , group ="Concept")
 
-public class TURN extends Processor{
+public class SCoes extends Processor{
     /**
      * Override this method and place your code here.
      * <p>
@@ -21,7 +21,7 @@ public class TURN extends Processor{
         bot.init(hardwareMap);
         waitForStart();
 
-        goPulses(3);
+        score();
 
 
 

@@ -24,8 +24,22 @@ public class GoPulses extends Processor{
         waitForStart();
 
 
+        bot.glyphServo1.setPosition(0.69);
+        bot.glyphServo2.setPosition(0.35);
+        sleep(1000);
+
+        runtime.reset();
+        while(runtime.milliseconds()<800) {
+            bot.slideMotor.setPower(.2);
+        }
+        bot.slideMotor.setPower(0);
+        runtime.reset();
+
+        sleep(1000);
+
         bot.columnToScore = RelicRecoveryVuMark.CENTER;
-        gotoColumnLeft();
+        gotoColumnRight();
+        score();
 
     }
 }
