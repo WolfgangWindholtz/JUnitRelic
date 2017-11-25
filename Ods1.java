@@ -28,8 +28,9 @@ public class Ods1 extends Processor{
         waitForStart();
 
         while(opModeIsActive()){
-
+            bot.jewelServo.setPosition(.4);
             telemetry.addData("range", bot.rangeSensor.getDistance(DistanceUnit.CM));
+            telemetry.addData("range mm ",bot.rangeSensor.getDistance(DistanceUnit.MM));
             telemetry.addData("colorsß blue", bot.colorSensor.blue());
             telemetry.addData("colorsß red", bot.colorSensor.red());
 

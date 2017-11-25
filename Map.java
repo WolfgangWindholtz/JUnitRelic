@@ -7,6 +7,7 @@ import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
@@ -85,7 +86,7 @@ public class Map {
 
     ModernRoboticsI2cRangeSensor rangeSensor = null;
 
-    ModernRoboticsI2cColorSensor colorSensor = null;
+    ColorSensor colorSensor = null;
 
     int cameraMonitorViewId;
     VuforiaTrackables relicTrackables;
@@ -134,7 +135,7 @@ public class Map {
         imu.initialize(parameters);
 
         rangeSensor = hwMap.get(ModernRoboticsI2cRangeSensor.class, "rangeSensor");
-        colorSensor = hwMap.get(ModernRoboticsI2cColorSensor.class, "colorSensor");
+        colorSensor = hwMap.get(ColorSensor.class, "colorSensor");
 
 
 
@@ -164,7 +165,7 @@ public class Map {
 
         slideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        jewelServo.setPosition(.4);
+        jewelServo.setPosition(.2);
 
         glyphServo1.setPosition(0.4);
         glyphServo2.setPosition(0.6);
@@ -172,6 +173,11 @@ public class Map {
         motorRB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorLF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorRF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        motorLB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorRB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorLF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorRF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
     }
