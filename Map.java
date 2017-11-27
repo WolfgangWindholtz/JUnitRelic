@@ -167,8 +167,8 @@ public class Map {
 
         jewelServo.setPosition(.2);
 
-        glyphServo1.setPosition(0.4);
-        glyphServo2.setPosition(0.6);
+        //glyphServo1.setPosition(0.4);
+        //glyphServo2.setPosition(0.6);
         motorLB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorRB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorLF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

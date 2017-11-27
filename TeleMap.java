@@ -7,6 +7,7 @@ import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -88,7 +89,7 @@ public class TeleMap {
 
     ModernRoboticsI2cRangeSensor rangeSensor = null;
 
-    ModernRoboticsI2cColorSensor colorSensor = null;
+    ColorSensor colorSensor = null;
 
 
     RelicRecoveryVuMark columnToScore;
@@ -128,7 +129,7 @@ public class TeleMap {
         imu.initialize(parameters);
 
         rangeSensor = hwMap.get(ModernRoboticsI2cRangeSensor.class,"rangeSensor");
-        colorSensor = hwMap.get(ModernRoboticsI2cColorSensor.class,"colorSensor");
+        colorSensor = hwMap.get(ColorSensor.class,"colorSensor");
 
 
 
@@ -138,7 +139,8 @@ public class TeleMap {
         motorLB.setDirection(DcMotor.Direction.FORWARD);
         slideMotor.setDirection(DcMotor.Direction.FORWARD);
 
-        motorLB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorLB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);// could be a drain on power
+
         motorLF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorRF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorRB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -147,7 +149,7 @@ public class TeleMap {
 
         slideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        jewelServo.setPosition(.5);
+        //jewelServo.setPosition(.5);
         //glyphServo1.setPosition(0.4);
         //glyphServo2.setPosition(0.6);
 

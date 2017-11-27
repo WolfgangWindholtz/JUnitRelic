@@ -21,7 +21,13 @@ public class FullAutoBlueParallel extends Processor{
 
         bot.glyphServo1.setPosition(0.69);
         bot.glyphServo2.setPosition(0.35);
-        sleep(500);
+        sleep(2000);
+
+        runtime.reset();
+        while(runtime.milliseconds()<1000) {
+            bot.slideMotor.setPower(-.8);
+        }
+        bot.slideMotor.setPower(0);
 
         knockJewel(false);
 
@@ -29,14 +35,15 @@ public class FullAutoBlueParallel extends Processor{
         // go in front of the cyrptograph
         //opposite direction of blue
 
-        goAngle(35, 180);
+        goAngle(30, 180);
+
         sleep(1000);
         turn(180);
 
-        sleep(1000);
-        goAngle(5,90);
-        gotoColumnRight();
+        goAngle(13.5, 180);
 
-        score();
+        sleep(1000);
+        gotoColumnRightEnc();
+
     }
 }

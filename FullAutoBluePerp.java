@@ -31,8 +31,10 @@ public class FullAutoBluePerp extends Processor{
 
         turn(-90);
 
-        gotoColumnRight();// need to come at the column from the right for this to work
+        gotoColumnRightEnc();// need to come at the column from the right for this to work
 
+        stopBotMotors();
+        sleep(1000);
         score();
 
     }

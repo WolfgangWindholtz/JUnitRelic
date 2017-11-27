@@ -21,23 +21,33 @@ public class FullAutoRedParallel extends Processor{
 
         bot.glyphServo1.setPosition(0.69);
         bot.glyphServo2.setPosition(0.35);
-        sleep(1000);
+        sleep(2000);
+
+        runtime.reset();
+        while(runtime.milliseconds()<1000) {
+            bot.slideMotor.setPower(-.8);
+        }
+        bot.slideMotor.setPower(0);
 
         knockJewel(true);
 
         //forward(300);
         // go in front of the cyrptograph
 
-        goAngle(35,0);
 
+        goAngle(30, 0);
+
+        sleep(1000);
         turn(180);
 
+        goAngle(13.5, 180);
 
-        goAngle(5,90);
-
-        gotoColumnLeft();
-
+        sleep(1000);
+        gotoColumnLeftEnc();
+        stopBotMotors();
+        sleep(1000);
         score();
+
 
     }
 }

@@ -26,13 +26,15 @@ public class FullAutoRedPerp extends Processor{
 
         //forward(300);
         // get off the stone
-        goAngle(35, 0 );
+        goAngle(65, 0 );
 
-        turn(180);
+        turn(90);
 
         goAngle(5,90);
 
-        gotoColumnLeft();
+        gotoColumnLeftEnc();
+        stopBotMotors();
+        sleep(1000);
         score();
 
     }

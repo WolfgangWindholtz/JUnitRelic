@@ -21,7 +21,7 @@ public class TURN extends Processor{
         bot.init(hardwareMap);
         waitForStart();
 
-        goPulses2(3);
+        //goPulses2(3);
 
 
 
