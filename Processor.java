@@ -25,7 +25,7 @@ public abstract class Processor extends LinearOpMode {
     public final static int TICKSPERROTATION = 1120;
     static final double P_TURN_COEFF = .2;
     public final static int DIAMETEROFWHEEL = 4;
-    static final double TURN_SPEED = 0.2;
+    static final double TURN_SPEED = 0.3;
     static final double DRIVE_SPEED = 0.6;
     static final double HEADING_THRESHOLD = 2;
     static final double OMNI_WHEEL_CIRCUMFERENCE = 4 * Math.PI;
@@ -307,7 +307,7 @@ public abstract class Processor extends LinearOpMode {
 
         // get close to the wall
 
-        while (bot.rangeSensor.getDistance(DistanceUnit.CM)>20) {
+        while (bot.rangeSensor.getDistance(DistanceUnit.CM)>35) {
 
 
             bot.motorLF.setPower(-.3);
@@ -335,7 +335,7 @@ public abstract class Processor extends LinearOpMode {
         // the direction approaching the cryptobox changes depending on the side
         enterEnc();
 
-        while (bot.rangeSensor.getDistance(DistanceUnit.CM)>30) {
+        while (bot.rangeSensor.getDistance(DistanceUnit.CM)>35) {
 
 
             bot.motorLF.setPower(-.3);
@@ -425,22 +425,7 @@ public abstract class Processor extends LinearOpMode {
 
     public void goColums(int count){
         int c = 0;
-        while(count < c){
-
-            goAngle(5,0);
-            stopBotMotors();
-
-
-            telemetry.addData("count",count );
-            telemetry.update();
-            count++;
-        }
-        stopBotMotors();
-    }
-
-    public void goColumPrep(int count){
-        int c = 0;
-        while(count < c){
+        while(count > c){
 
             goAngle(5,180);
             stopBotMotors();
@@ -448,7 +433,22 @@ public abstract class Processor extends LinearOpMode {
 
             telemetry.addData("count",count );
             telemetry.update();
-            count++;
+            c++;
+        }
+        stopBotMotors();
+    }
+
+    public void goColumPrep(int count){
+        int c = 0;
+        while(count > c){
+
+            goAngle(5,0);
+            stopBotMotors();
+
+
+            telemetry.addData("count",count );
+            telemetry.update();
+            c++;
         }
         stopBotMotors();
     }

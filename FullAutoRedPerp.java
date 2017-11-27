@@ -22,6 +22,12 @@ public class FullAutoRedPerp extends Processor{
         bot.glyphServo2.setPosition(0.35);
         sleep(1000);
 
+        runtime.reset();
+        while(runtime.milliseconds()<750) {
+            bot.slideMotor.setPower(-.8);
+        }
+        bot.slideMotor.setPower(0);
+
         knockJewel(true);
 
         //forward(300);
