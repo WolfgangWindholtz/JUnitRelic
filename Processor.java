@@ -466,11 +466,11 @@ public abstract class Processor extends LinearOpMode {
         bot.glyphServo2.setPosition(0.6);
         sleep(1000);
 
-        goAngle(5,90);
+        goAnglePower(5,90,.3);
         sleep(1000);
         //turn(30);
 
-        goAngle(5,-90);
+        goAnglePower(9,-90,.5);
         sleep(1000);
 
     }

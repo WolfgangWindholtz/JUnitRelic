@@ -40,7 +40,7 @@ public class    FullAutoBlueParallel extends Processor{
         sleep(500);
         turn(180);
 
-        goAngle(13.5, 180);
+        goAngle(12, 180);
 
         sleep(500);
         gotoColumnRightEnc();
