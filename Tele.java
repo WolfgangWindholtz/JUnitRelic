@@ -52,10 +52,10 @@ public class Tele extends OpMode{
 
 
 
-        bot.motorLF.setPower(1*(bPair-zpow));
-        bot.motorRF.setPower(1*(-aPair-zpow));
-        bot.motorRB.setPower(1*(-bPair-zpow));
-        bot.motorLB.setPower(1*(aPair-zpow));
+        bot.motorLF.setPower(.8*(bPair-zpow));
+        bot.motorRF.setPower(.8*(-aPair-zpow));
+        bot.motorRB.setPower(.8*(-bPair-zpow));
+        bot.motorLB.setPower(.8*(aPair-zpow));
 
         double slidePower = -gamepad2.left_stick_y;
         if(slidePower>0)
@@ -80,8 +80,9 @@ public class Tele extends OpMode{
         }
         if(gamepad2.b)  // openRight
         {
-            openLeft();
-            bot.glyphServo1.setPosition(.6);
+            bot.glyphServo2.setPosition(.8);
+
+            bot.glyphServo1.setPosition(.2);
         }
         if(gamepad2.y) // releaseGlyphs
         {

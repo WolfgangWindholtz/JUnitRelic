@@ -427,7 +427,7 @@ public abstract class Processor extends LinearOpMode {
         int c = 0;
         while(count > c){
 
-            goAngle(4.5,180);
+            goAngle(5,180);
             stopBotMotors();
 
 
@@ -442,7 +442,7 @@ public abstract class Processor extends LinearOpMode {
         int c = 0;
         while(count > c){
 
-            goAngle(4.5,0);
+            goAngle(5,0);
             stopBotMotors();
 
 
@@ -454,6 +454,13 @@ public abstract class Processor extends LinearOpMode {
     }
 
     public void score() {
+
+        runtime.reset();
+        while(runtime.milliseconds()<250) {
+            bot.slideMotor.setPower(.8);
+        }
+        bot.slideMotor.setPower(0);
+
         stopBotMotors();
         bot.glyphServo1.setPosition(0.4);
         bot.glyphServo2.setPosition(0.6);
@@ -461,6 +468,8 @@ public abstract class Processor extends LinearOpMode {
 
         goAngle(5,90);
         sleep(1000);
+        //turn(30);
+
         goAngle(5,-90);
         sleep(1000);
 
@@ -543,4 +552,47 @@ public abstract class Processor extends LinearOpMode {
         bot.stubbedInit();
     }
 
+    public void goAnglePower(double dist, double angle,double power) {
+        resetEnc();
+        enterPosenc();
+        double angel = Math.PI*angle/180;
+        double x = Math.cos(angel);
+        double y = Math.sin(angel);
+        double distance = dist / (OMNI_WHEEL_CIRCUMFERENCE);
+        double ticks = 1120 * distance;
+        int ticksRF = (int)Math.round(ticks*Math.signum(y-x));
+        int ticksLF = (int)Math.round(ticks*Math.signum(-y-x));
+        int ticksLB = (int)Math.round(ticks*Math.signum(-y+x));
+        int ticksRB = (int)Math.round(ticks*Math.signum(y+x));
+        bot.motorLF.setTargetPosition(ticksLF);
+        bot.motorRF.setTargetPosition(ticksRF);
+        bot.motorRB.setTargetPosition(ticksRB);
+        bot.motorLB.setTargetPosition(ticksLB);
+        bot.motorRF.setPower(power * (y - x));
+        bot.motorLF.setPower(power * (-y - x));
+        bot.motorLB.setPower(power * (-y + x));
+        bot.motorRB.setPower(power * (y + x));
+        while (
+                (bot.motorLB.isBusy() && bot.motorRB.isBusy()&&bot.motorRF.isBusy()&&bot.motorLF.isBusy())) {
+
+            // Display it for the driver.
+
+            telemetry.addData("Path2",  "Running at %7d :%7d",
+                    bot.motorLB.getCurrentPosition(),
+                    bot.motorLF.getCurrentPosition(),
+                    bot.motorRB.getCurrentPosition(),
+                    bot.motorRF.getCurrentPosition());
+            telemetry.addData("target",  "Running at %7d :%7d",
+                    bot.motorLB.getTargetPosition(),
+                    bot.motorLF.getTargetPosition(),
+                    bot.motorRB.getTargetPosition(),
+                    bot.motorRF.getTargetPosition());
+            telemetry.update();
+        }
+
+        stopBotMotors();
+
+        sleep(250);
+        enterEnc();
+    }
 }

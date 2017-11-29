@@ -24,7 +24,7 @@ public class    FullAutoBlueParallel extends Processor{
         sleep(2000);
 
         runtime.reset();
-        while(runtime.milliseconds()<500) {
+        while(runtime.milliseconds()<300) {
             bot.slideMotor.setPower(-.8);
         }
         bot.slideMotor.setPower(0);
@@ -37,16 +37,16 @@ public class    FullAutoBlueParallel extends Processor{
 
         goAngle(30, 180);
 
-        sleep(1000);
+        sleep(500);
         turn(180);
 
         goAngle(13.5, 180);
 
-        sleep(1000);
+        sleep(500);
         gotoColumnRightEnc();
 
         stopBotMotors();
-        sleep(1000);
+        sleep(500);
         score();
     }
 }

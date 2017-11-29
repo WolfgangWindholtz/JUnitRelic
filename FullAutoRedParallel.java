@@ -24,7 +24,7 @@ public class FullAutoRedParallel extends Processor{
         sleep(2000);
 
         runtime.reset();
-        while(runtime.milliseconds()<500) {
+        while(runtime.milliseconds()<300) {
             bot.slideMotor.setPower(-.8);
         }
         bot.slideMotor.setPower(0);

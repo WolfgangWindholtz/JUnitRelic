@@ -23,7 +23,7 @@ public class FullAutoRedPerp extends Processor{
         sleep(1000);
 
         runtime.reset();
-        while(runtime.milliseconds()<500) {
+        while(runtime.milliseconds()<300) {
             bot.slideMotor.setPower(-.8);
         }
         bot.slideMotor.setPower(0);
