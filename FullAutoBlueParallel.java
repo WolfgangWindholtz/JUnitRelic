@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
  */
 @Autonomous(name = "FullAutoBlueParallel" , group ="Concept")
 
-public class FullAutoBlueParallel extends Processor{
+public class    FullAutoBlueParallel extends Processor{
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -24,7 +24,7 @@ public class FullAutoBlueParallel extends Processor{
         sleep(2000);
 
         runtime.reset();
-        while(runtime.milliseconds()<750) {
+        while(runtime.milliseconds()<500) {
             bot.slideMotor.setPower(-.8);
         }
         bot.slideMotor.setPower(0);

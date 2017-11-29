@@ -25,7 +25,7 @@ public class FullAutoBluePerp extends Processor{
 
 
         runtime.reset();
-        while(runtime.milliseconds()<750) {
+        while(runtime.milliseconds()<500) {
             bot.slideMotor.setPower(-.8);
         }
         bot.slideMotor.setPower(0);

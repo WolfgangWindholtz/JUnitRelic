@@ -427,7 +427,7 @@ public abstract class Processor extends LinearOpMode {
         int c = 0;
         while(count > c){
 
-            goAngle(5,180);
+            goAngle(4.5,180);
             stopBotMotors();
 
 
@@ -442,7 +442,7 @@ public abstract class Processor extends LinearOpMode {
         int c = 0;
         while(count > c){
 
-            goAngle(5,0);
+            goAngle(4.5,0);
             stopBotMotors();
 
 
