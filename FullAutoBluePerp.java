@@ -34,7 +34,7 @@ public class FullAutoBluePerp extends Processor{
 
         //forward(300);
         // get off the stone\\
-        goAngle(65,180);
+        goAngle(40,180);
 
         turn(-90);
 

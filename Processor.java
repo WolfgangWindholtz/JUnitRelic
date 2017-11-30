@@ -23,7 +23,7 @@ public abstract class Processor extends LinearOpMode {
     ElapsedTime runtime = new ElapsedTime();
     public final static double DEFAULT_POWER = .7;
     public final static int TICKSPERROTATION = 1120;
-    static final double P_TURN_COEFF = .2;
+    static final double P_TURN_COEFF = .15;
     public final static int DIAMETEROFWHEEL = 4;
     static final double TURN_SPEED = 0.3;
     static final double DRIVE_SPEED = 0.6;

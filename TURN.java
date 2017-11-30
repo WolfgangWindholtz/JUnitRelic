@@ -22,6 +22,7 @@ public class TURN extends Processor{
         waitForStart();
 
 
+        turn(180);
 
 
     }

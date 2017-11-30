@@ -32,7 +32,7 @@ public class FullAutoRedPerp extends Processor{
 
         //forward(300);
         // get off the stone
-        goAngle(65, 0 );
+        goAngle(40, 0 );
 
         turn(90);
 

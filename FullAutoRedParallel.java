@@ -38,7 +38,7 @@ public class FullAutoRedParallel extends Processor{
         goAngle(30, 0);
 
         sleep(500);
-        turn(180);
+        turn(177);
 
         goAngle(12, 0);
 
