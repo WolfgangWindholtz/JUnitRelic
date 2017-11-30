@@ -376,10 +376,10 @@ public abstract class Processor extends LinearOpMode {
                 if(numOfCol > count) {
                     runtime.reset();
                     while (runtime.milliseconds() < 350) {
-                        bot.motorLF.setPower(.3);
-                        bot.motorRF.setPower(.3);
-                        bot.motorRB.setPower(-.3);
-                        bot.motorLB.setPower(-.3);
+                        bot.motorLF.setPower(.2);
+                        bot.motorRF.setPower(.2);
+                        bot.motorRB.setPower(-.2);
+                        bot.motorLB.setPower(-.2);
                     }
                 }
                 runtime.reset();
@@ -397,10 +397,10 @@ public abstract class Processor extends LinearOpMode {
         int count = 0;
         while(count < numOfCol){
 
-            bot.motorLF.setPower(-.3);
-            bot.motorRF.setPower(-.3);
-            bot.motorRB.setPower(.3);
-            bot.motorLB.setPower(.3);
+            bot.motorLF.setPower(-.2);
+            bot.motorRF.setPower(-.2);
+            bot.motorRB.setPower(.2);
+            bot.motorLB.setPower(.2);
 
             if (bot.rangeSensor.getDistance(DistanceUnit.CM)<23) {
                 count++;
@@ -408,10 +408,10 @@ public abstract class Processor extends LinearOpMode {
                     runtime.reset();
 
                     while (runtime.milliseconds() < 350) {
-                        bot.motorLF.setPower(-.3);
-                        bot.motorRF.setPower(-.3);
-                        bot.motorRB.setPower(.3);
-                        bot.motorLB.setPower(.3);
+                        bot.motorLF.setPower(-.2);
+                        bot.motorRF.setPower(-.2);
+                        bot.motorRB.setPower(.2);
+                        bot.motorLB.setPower(.2);
                     }
                     runtime.reset();
                 }

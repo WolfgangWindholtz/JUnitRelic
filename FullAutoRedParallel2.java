@@ -5,9 +5,9 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 /**
  * Created by wolfie on 9/23/17.
  */
-@Autonomous(name = "FullAutoRedParallel" , group ="Concept")
+@Autonomous(name = "FullAutoRedParallel2" , group ="Concept")
 
-public class FullAutoRedParallel extends Processor{
+public class FullAutoRedParallel2 extends Processor{
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -40,10 +40,10 @@ public class FullAutoRedParallel extends Processor{
         sleep(500);
         turn(180);
 
-        goAngle(12, 0);
+        goAngle(13.5, 0);
 
         sleep(500);
-        gotoColumnLeftEnc();
+        gotoColumnLeft();
         stopBotMotors();
         sleep(500);
         score();
