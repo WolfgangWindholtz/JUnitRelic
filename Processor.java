@@ -462,13 +462,21 @@ public abstract class Processor extends LinearOpMode {
         bot.slideMotor.setPower(0);
 
         stopBotMotors();
+        //bot.glyphServo1.setPosition(0.4);
+        //bot.glyphServo2.setPosition(0.6);
+        //sleep(1000);
+
+        goAnglePower(3,90,.3);
+        sleep(500);
+        //turn(30);
+
         bot.glyphServo1.setPosition(0.4);
         bot.glyphServo2.setPosition(0.6);
         sleep(1000);
 
-        goAnglePower(5,90,.3);
-        sleep(1000);
-        //turn(30);
+        goAnglePower(2,90,.3);
+
+
 
         goAnglePower(9,-90,.5);
         sleep(1000);
