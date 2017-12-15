@@ -50,6 +50,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
@@ -82,8 +83,8 @@ public class Map {
     Servo glyphServo1;
     Servo glyphServo2;
     Servo jewelServo;
-    NavxMicroNavigationSensor mega;
 
+    TouchSensor touchSensor;
 
 
     ModernRoboticsI2cRangeSensor rangeSensor = null;
@@ -138,6 +139,7 @@ public class Map {
 
         rangeSensor = hwMap.get(ModernRoboticsI2cRangeSensor.class, "rangeSensor");
         colorSensor = hwMap.get(ColorSensor.class, "colorSensor");
+        touchSensor = hwMap.get(TouchSensor.class,"touchSensor");
 
 
 
@@ -168,6 +170,8 @@ public class Map {
         slideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         jewelServo.setPosition(.2);
+
+
 
         //glyphServo1.setPosition(0.4);
         //glyphServo2.setPosition(0.6);

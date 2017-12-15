@@ -301,6 +301,36 @@ public abstract class Processor extends LinearOpMode {
         stopBotMotors();
     }
 
+
+    public void goT0TOuch() {
+        // the direction approaching the cryptobox changes depending on the side
+        enterEnc();
+
+        while (bot.rangeSensor.getDistance(DistanceUnit.CM)>30) {
+
+
+            bot.motorLF.setPower(-.3);
+            bot.motorRF.setPower(.3);
+            bot.motorRB.setPower(.3);
+            bot.motorLB.setPower(-.3);
+
+
+            // clear the column so the same column is not counted three time
+        }
+
+        if (bot.columnToScore == RelicRecoveryVuMark.RIGHT) {
+            goPulses(1);
+        }
+        if (bot.columnToScore == RelicRecoveryVuMark.CENTER) {
+            goPulses(2);
+        }
+        if (bot.columnToScore == RelicRecoveryVuMark.LEFT) {
+            goPulses(3);
+        }
+
+        stopBotMotors();
+    }
+
     public void gotoColumnRightEnc() {
         enterEnc();
         // the direction approaching the cryptobox changes depending on the side
@@ -377,6 +407,36 @@ public abstract class Processor extends LinearOpMode {
                 if(numOfCol > count) {
                     runtime.reset();
                     while (runtime.milliseconds() < 350) {
+                        bot.motorLF.setPower(.2);
+                        bot.motorRF.setPower(.2);
+                        bot.motorRB.setPower(-.2);
+                        bot.motorLB.setPower(-.2);
+                    }
+                }
+                runtime.reset();
+                // clear the column so the same column is not counted three time
+            }
+            telemetry.addData("count",count );
+            telemetry.update();
+        }
+        stopBotMotors();
+    }
+    public void goTOUCh(int numOfCol) {
+        int count = 0;
+
+        while(count < numOfCol){
+
+            bot.motorLF.setPower(.3);
+            bot.motorRF.setPower(.3);
+            bot.motorRB.setPower(-.3);
+            bot.motorLB.setPower(-.3);
+
+            if (bot.touchSensor.isPressed()) {
+                count++;
+
+                if(numOfCol > count) {
+                    runtime.reset();
+                    while (runtime.milliseconds() < 200) {
                         bot.motorLF.setPower(.2);
                         bot.motorRF.setPower(.2);
                         bot.motorRB.setPower(-.2);
