@@ -307,7 +307,8 @@ public abstract class Processor extends LinearOpMode {
 
         // get close to the wall
 
-        while (bot.rangeSensor.getDistance(DistanceUnit.CM)>35) {
+        /*while (bot.rangeSensor.getDistance(DistanceUnit.CM)>35) {
+
 
 
             bot.motorLF.setPower(-.3);
@@ -317,7 +318,7 @@ public abstract class Processor extends LinearOpMode {
 
 
             // clear the column so the same column is not counted three time
-        }
+        }*/
 
 
         if (bot.columnToScore == RelicRecoveryVuMark.LEFT) {
@@ -335,17 +336,17 @@ public abstract class Processor extends LinearOpMode {
         // the direction approaching the cryptobox changes depending on the side
         enterEnc();
 
-        while (bot.rangeSensor.getDistance(DistanceUnit.CM)>35) {
+        //while (bot.rangeSensor.getDistance(DistanceUnit.CM)>35) {
 
 
-            bot.motorLF.setPower(-.3);
+          /*  bot.motorLF.setPower(-.3);
             bot.motorRF.setPower(.3);
             bot.motorRB.setPower(.3);
             bot.motorLB.setPower(-.3);
 
 
             // clear the column so the same column is not counted three time
-        }
+        }*/
 
         if (bot.columnToScore == RelicRecoveryVuMark.RIGHT) {
             goColums(1);

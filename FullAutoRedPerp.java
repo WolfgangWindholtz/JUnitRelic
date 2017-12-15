@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
  */
 @Autonomous(name = "FullAutoRedPerp" , group ="Concept")
 
-public class FullAutoRedPerp extends Processor{
+public class  FullAutoRedPerp extends Processor{
 
     @Override
     public void runOpMode() throws InterruptedException {
