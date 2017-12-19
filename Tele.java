@@ -11,6 +11,14 @@ public class Tele extends OpMode{
     double zpow;
     double rightx;
     boolean toggle = false;
+    double v;
+    double v1;
+    double v2;
+    double v3;
+
+    diverModes mode = diverModes.OMNI;
+
+
 
     @Override
     public void init() {
@@ -46,13 +54,42 @@ public class Tele extends OpMode{
         double aPair = mag * Math.cos(theta - Math.PI/4);
         double bPair = mag * Math.sin(theta - Math.PI/4);
 
-
+        switch (mode){
+            case OMNI:
+                v = .8 * (bPair - toggle(toggle, zpow));
+                v1 = .8 * (-aPair - toggle(toggle, zpow));
+                v2 = .8 * (-bPair - toggle(toggle, zpow));
+                v3 = .8 * (aPair - toggle(toggle, zpow));
+                break;
+            case TANK1:
+                v = gamepad1.left_stick_y;
+                v1 = gamepad1.right_stick_y;
+                v2 = gamepad1.right_stick_y;
+                v3 = gamepad1.left_stick_y;
+                break;
+            case TANK2:
+                v = gamepad1.right_stick_y;
+                v1 = gamepad1.right_stick_y;
+                v2 = gamepad1.left_stick_y;
+                v3 = gamepad1.left_stick_y;
+                break;
+            case REARTURN:
+                v2 = gamepad1.right_stick_y;
+                v3 = gamepad1.left_stick_y;
+                break;
+            default:
+                v = .8 * (bPair - toggle(toggle, zpow));
+                v1 = .8 * (-aPair - toggle(toggle, zpow));
+                v2 = .8 * (-bPair - toggle(toggle, zpow));
+                v3 = .8 * (aPair - toggle(toggle, zpow));
+                break;
+        }
         //sets movement speeds for motors to move correctly based on joystick input
         //runs at .8 speed to provide driver assisting controls
-        bot.motorLF.setPower(.8*(bPair-toggle(toggle,zpow)));
-        bot.motorRF.setPower(.8*(-aPair-toggle(toggle,zpow)));
-        bot.motorRB.setPower(.8*(-bPair-toggle(toggle,zpow)));
-        bot.motorLB.setPower(.8*(aPair-toggle(toggle,zpow)));
+        bot.motorLF.setPower(v);
+        bot.motorRF.setPower(v1);
+        bot.motorRB.setPower(v2);
+        bot.motorLB.setPower(v3);
 
         //assings the joystick value to another variable
         double slidePower = -gamepad2.left_stick_y;
@@ -100,6 +137,7 @@ public class Tele extends OpMode{
         {
             realeaseGlyph();
         }
+
         if(gamepad2.dpad_left){
             fingersClose();  // fingers closed for relic
         }
@@ -111,6 +149,19 @@ public class Tele extends OpMode{
         }
         if(gamepad2.dpad_down){
             wristDown(); // bring wrist down for relic
+        }
+        //DRIVECHANGE
+        if(gamepad1.dpad_left){
+            mode = diverModes.OMNI;  // fingers closed for relic
+        }
+        if(gamepad1.dpad_right){
+            mode = diverModes.TANK1; // opens finger servo for relic
+        }
+        if(gamepad1.dpad_up){
+            mode = diverModes.REARTURN;   // brings wrist up for relic
+        }
+        if(gamepad1.dpad_down){
+            mode = diverModes.TANK2; // bring wrist down for relic
         }
 
 
@@ -160,5 +211,8 @@ public class Tele extends OpMode{
         openRight();
     }
 
+    enum diverModes{
+        OMNI,TANK2, TANK1,REARTURN
+    }
 
 }
