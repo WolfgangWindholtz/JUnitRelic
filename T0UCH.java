@@ -2,10 +2,12 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
+
 /**
  * Created by wolfie on 12/15/17.
  */
-@Autonomous(name = "T0UCH" , group ="FROOg")
+@Autonomous(name = "colorSensor" , group ="FROOg")
 
 public class T0UCH extends Processor{
     /**
@@ -21,7 +23,8 @@ public class T0UCH extends Processor{
         bot.init(hardwareMap);
         waitForStart();
         while(opModeIsActive()){
-            //gotoRighttouch();
+            bot.columnToScore = RelicRecoveryVuMark.UNKNOWN;
+            gotoColumnLeft();
         }
 
     }

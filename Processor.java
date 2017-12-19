@@ -367,8 +367,9 @@ public abstract class Processor extends LinearOpMode {
     }
 
     public void goPulses(int numOfCol) {
-        int count = 0;
 
+        int count = 0;
+        bot.colorServo.setPosition(.5);
         while (count < numOfCol) {
 
             bot.motorLF.setPower(.3);
@@ -394,6 +395,9 @@ public abstract class Processor extends LinearOpMode {
             telemetry.addData("count", count);
             telemetry.update();
         }
+
+        bot.colorServo.setPosition(0);
+
         goAngle(3,0);
         stopBotMotors();
     }
@@ -432,6 +436,8 @@ public abstract class Processor extends LinearOpMode {
 
     public void goPulsesPrep(int numOfCol) {
         int count = 0;
+        bot.colorServo.setPosition(.5);
+
         while (count < numOfCol) {
 
             bot.motorLF.setPower(-.2);
@@ -457,6 +463,8 @@ public abstract class Processor extends LinearOpMode {
             telemetry.addData("count", count);
             telemetry.update();
         }
+        bot.colorServo.setPosition(.3);
+
         goAngle(3,180);
         stopBotMotors();
     }

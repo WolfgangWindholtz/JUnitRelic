@@ -34,6 +34,7 @@ public class Map {
     Servo glyphServo3;
     Servo glyphServo4;
     Servo jewelServo;
+    Servo colorServo;
 
 
     ModernRoboticsI2cRangeSensor rangeSensor = null;
@@ -81,6 +82,8 @@ public class Map {
         glyphServo3 = hwMap.servo.get("glyphServo3");
         glyphServo4 = hwMap.servo.get("glyphServo4");
         jewelServo = hwMap.servo.get("jewelServo");
+        colorServo = hwMap.servo.get("colorServo");
+
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
