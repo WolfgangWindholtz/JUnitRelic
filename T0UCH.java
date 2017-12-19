@@ -21,7 +21,7 @@ public class T0UCH extends Processor{
         bot.init(hardwareMap);
         waitForStart();
         while(opModeIsActive()){
-            goT0TOuch();
+            //gotoRighttouch();
         }
 
     }

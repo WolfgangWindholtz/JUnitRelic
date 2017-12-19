@@ -19,31 +19,31 @@ public class ProcessorTest extends TestCase {
     @org.junit.Test
     public void testTurning() {
         double actual = (new MyProcessor()).turning(0, -90);
-        assertEquals(-0.4, actual);
+        assertEquals(-0.3, actual);
     }
 
     @org.junit.Test
     public void testTurning90() {
         double actual = (new MyProcessor()).turning(0, 90);
-        assertEquals(0.4, actual);
+        assertEquals(0.3, actual);
     }
 
     @org.junit.Test
     public void testTurning888() {
         double actual = (new MyProcessor()).turning(0, 90);
-        assertEquals(0.4, actual);
+        assertEquals(0.3, actual);
     }
 
     @org.junit.Test
     public void testcheckJewel() {
         int actual = (new MyProcessor()).checkJewel(true, true);
-        assertEquals(-15, actual);
+        assertEquals(15, actual);
 
     }
     @org.junit.Test
     public void testcheckJewel2() {
         int actual = (new MyProcessor()).checkJewel(true, false);
-        assertEquals(15, actual);
+        assertEquals(-15, actual);
 
     }
     @org.junit.Test

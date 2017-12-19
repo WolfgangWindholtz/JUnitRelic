@@ -1,11 +1,12 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 
 /**
  * Created by wolfie on 12/15/17.
  */
-@Autonomous(name = "TOOCh  " , group ="LOOGE")
+@Autonomous(name = "Color sensor Output  " , group ="LOOGE")
 
 public class TOOCH extends Processor{
     /**
@@ -20,9 +21,19 @@ public class TOOCH extends Processor{
     public void runOpMode() throws InterruptedException {
         bot.init(hardwareMap);
         waitForStart();
+        int counttrue = 0;
         while(opModeIsActive()){
-            telemetry.addData("touch",bot.touchSensor.isPressed());
-            telemetry.update();
+           /* if(!bot.touchSensor.getState()){
+                counttrue++;
+            }
+
+            telemetry.addData("touch",bot.touchSensor.getState());
+            telemetry.addData("count",counttrue);
+
+            telemetry.addLine("true is not pressed");
+            telemetry.addLine("false is pressed");
+
+            telemetry.update();*/
 
         }
 
