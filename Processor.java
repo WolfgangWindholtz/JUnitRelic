@@ -257,26 +257,17 @@ public abstract class Processor extends LinearOpMode {
 
     }
 
+
+
     public void gotoColumnLeft() {
         // the direction approaching the cryptobox changes depending on the side
         enterEnc();
-
-        while (bot.rangeSensor.getDistance(DistanceUnit.CM) > 30) {
-
-
-            bot.motorLF.setPower(-.3);
-            bot.motorRF.setPower(.3);
-            bot.motorRB.setPower(.3);
-            bot.motorLB.setPower(-.3);
-
-
-            // clear the column so the same column is not counted three time
-        }
 
         goPulses(getColumnLeft());
 
         stopBotMotors();
     }
+
 
 
    /* public void gotoLefttouch() {
@@ -327,7 +318,7 @@ public abstract class Processor extends LinearOpMode {
 
         // get close to the wall
 
-        /*while (bot.rangeSensor.getDistance(DistanceUnit.CM)>35) {
+        while (bot.rangeSensor.getDistance(DistanceUnit.CM)>35) {
 
 
 
@@ -338,7 +329,7 @@ public abstract class Processor extends LinearOpMode {
 
 
             // clear the column so the same column is not counted three time
-        }*/
+        }
 
 
        goColumPrep(getColumnRight());
@@ -352,14 +343,14 @@ public abstract class Processor extends LinearOpMode {
         //while (bot.rangeSensor.getDistance(DistanceUnit.CM)>35) {
 
 
-          /*  bot.motorLF.setPower(-.3);
+            /*bot.motorLF.setPower(-.3);
             bot.motorRF.setPower(.3);
             bot.motorRB.setPower(.3);
-            bot.motorLB.setPower(-.3);
+            bot.motorLB.setPower(-.3);*/
 
 
             // clear the column so the same column is not counted three time
-        }*/
+        //}
 
         goColums(getColumnLeft());
 
@@ -370,6 +361,7 @@ public abstract class Processor extends LinearOpMode {
 
         int count = 0;
         bot.colorServo.setPosition(.5);
+        sleep(700);
         while (count < numOfCol) {
 
             bot.motorLF.setPower(.3);
@@ -377,12 +369,12 @@ public abstract class Processor extends LinearOpMode {
             bot.motorRB.setPower(-.3);
             bot.motorLB.setPower(-.3);
 
-            if (bot.colorSensor2.red() < 10 ||bot.colorSensor2.blue() < 10) {
+            if (bot.colorSensor2.getDistance(DistanceUnit.CM)>5) {
                 count++;
 
                 if (numOfCol > count) {
                     runtime.reset();
-                    while (bot.colorSensor2.red() < 10 ||bot.colorSensor2.blue() < 10) {
+                    while (bot.colorSensor2.getDistance(DistanceUnit.CM)>0) {
                         bot.motorLF.setPower(.2);
                         bot.motorRF.setPower(.2);
                         bot.motorRB.setPower(-.2);
@@ -395,12 +387,14 @@ public abstract class Processor extends LinearOpMode {
             telemetry.addData("count", count);
             telemetry.update();
         }
+        //sleep(700);
 
-        bot.colorServo.setPosition(0);
+        //bot.colorServo.setPosition(0);
 
         goAngle(3,0);
         stopBotMotors();
     }
+
 
    /* public void goTOUCh(int numOfCol) {
         int count = 0;
@@ -445,12 +439,12 @@ public abstract class Processor extends LinearOpMode {
             bot.motorRB.setPower(.2);
             bot.motorLB.setPower(.2);
 
-            if (bot.colorSensor2.red() < 10 ||bot.colorSensor2.blue() < 10) {
+            if (bot.colorSensor2.getDistance(DistanceUnit.CM)>0) {
                 count++;
                 if (numOfCol > count) {
                     runtime.reset();
 
-                    while (bot.colorSensor2.red() < 10 ||bot.colorSensor2.blue() < 10) {
+                    while (bot.colorSensor2.getDistance(DistanceUnit.CM)>0) {
                         bot.motorLF.setPower(-.2);
                         bot.motorRF.setPower(-.2);
                         bot.motorRB.setPower(.2);
@@ -696,6 +690,9 @@ public abstract class Processor extends LinearOpMode {
         }
         if (bot.columnToScore == RelicRecoveryVuMark.LEFT) {
             x = 3;
+        }
+        if(bot.columnToScore == RelicRecoveryVuMark.UNKNOWN){
+            x = 1;
         }
         return x;
     }

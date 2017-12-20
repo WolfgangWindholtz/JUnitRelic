@@ -22,10 +22,10 @@ public class T0UCH extends Processor{
     public void runOpMode() throws InterruptedException {
         bot.init(hardwareMap);
         waitForStart();
-        while(opModeIsActive()){
             bot.columnToScore = RelicRecoveryVuMark.UNKNOWN;
             gotoColumnLeft();
-        }
+
+
 
     }
 }

@@ -6,10 +6,12 @@ import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcontroller.external.samples.SensorREVColorDistance;
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
@@ -43,7 +45,7 @@ public class Map {
 
     //DigitalChannel touchSensor;
 
-    ColorSensor colorSensor2;
+    DistanceSensor colorSensor2;
 
     int cameraMonitorViewId;
     VuforiaTrackables relicTrackables;
@@ -97,7 +99,7 @@ public class Map {
 
         rangeSensor = hwMap.get(ModernRoboticsI2cRangeSensor.class, "rangeSensor");
         colorSensor = hwMap.get(ColorSensor.class, "colorSensor");
-        colorSensor2 = hwMap.get(ColorSensor.class, "colorSensor2");
+        colorSensor2 = hwMap.get(DistanceSensor.class, "colorSensor2");
 
         //touchSensor = hwMap.get(DigitalChannel.class, "touchSensor");
         //touchSensor.setMode(DigitalChannel.Mode.INPUT);

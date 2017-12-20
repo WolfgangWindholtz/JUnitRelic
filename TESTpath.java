@@ -22,7 +22,7 @@ public class TESTpath extends Processor{
         waitForStart();
 
 
-        gotoColumnLeft();
+        //gotoColumnLeft();
 
     }
 }

@@ -81,25 +81,35 @@ public class Tele extends OpMode{
         //sets the variable value to move the motor at the specified speed
         bot.relicMotor.setPower(relicPower);
 
-        if(gamepad2.a)  //closes the servos to hold the glyph
+        if(gamepad2.right_bumper)  //closes the servos to hold the glyph
         {
-            gripGlyph();
+            gripGlyphTop();
         }
-        if(gamepad2.x)  //opens the right servo
+        if(gamepad2.left_bumper)
         {
-            openRight();
-            bot.glyphServo2.setPosition(.42);
-        }
-        if(gamepad2.b)  // openRight
-        {
-            bot.glyphServo2.setPosition(.8);
-
-            bot.glyphServo1.setPosition(.2);
+            gripGlyphBot();
         }
         if(gamepad2.y) //releases the glyph from the servos
         {
-            realeaseGlyph();
         }
+
+        if(gamepad2.b)  //opens the right servo
+        {
+            realeaseGlyphBot();
+            realeaseGlyphTop();
+
+
+        }
+        if(gamepad2.b)  //opens the right servo
+        {
+            realeaseGlyphBot();
+            gripGlyphTop();
+
+
+        }
+
+
+
         if(gamepad2.dpad_left){
             fingersClose();  // fingers closed for relic
         }
@@ -127,38 +137,64 @@ public class Tele extends OpMode{
     }
 
     public void fingersOpen(){
-        bot.relicFingers.setPosition(.6);
+        bot.relicFingers.setPosition(1);
     }
 
     public void fingersClose(){
-        bot.relicFingers.setPosition(.95);
+        bot.relicFingers.setPosition(0);
     }
 
     public void wristUp() {
-        bot.relicWrist.setPosition(.7);
+        bot.relicWrist.setPosition(0);
     }
 
     public void wristDown() {
-        bot.relicWrist.setPosition(0);
+        bot.relicWrist.setPosition(1);
     }
-    public void gripGlyph() {
+    public void gripGlyphBot() {
         bot.glyphServo1.setPosition(0.69);
         bot.glyphServo2.setPosition(0.35);
     }
+    public void gripGlyphTop()
+    {
+        bot.glyphServo3.setPosition(0.35);
+        bot.glyphServo4.setPosition(0.5);
+    }
 
-    public void openRight() {
+    public void openRightBot() {
         bot.glyphServo1.setPosition(0.53);
     }
 
-    public void openLeft() {
+    public void openLeftBot() {
         bot.glyphServo2.setPosition(0.5);
 
     }
-
-    public void realeaseGlyph() {
-        openLeft();
-        openRight();
+    public void openRightTop() {
+        bot.glyphServo3.setPosition(0.5);
     }
 
+    public void openLeftTop() {
+        bot.glyphServo4.setPosition(0.35);
+
+    }
+    public void closeJewel()
+    {
+        bot.jewelServo.setPosition(0.2);
+    }
+
+    public void realeaseGlyphBot() {
+        openLeftBot();
+        openRightBot();
+    }
+    public void realeaseGlyphTop()
+    {
+        openLeftTop();
+        openRightTop();
+    }
+
+    public void resetGlpyhpos(){
+        realeaseGlyphBot();
+        gripGlyphTop();
+    }
 
 }
