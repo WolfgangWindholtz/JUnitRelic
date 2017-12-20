@@ -179,6 +179,23 @@ public abstract class Processor extends LinearOpMode {
         }
     }
 
+    public void grabGlyph(){
+        bot.glyphServo1.setPosition(0.);
+        bot.glyphServo2.setPosition(0.35);
+        bot.glyphServo3.setPosition(.35);
+        bot.glyphServo4.setPosition(.5);
+        sleep(1000);
+
+        runtime.reset();
+
+        //raises the Rev slides to pick the glyph off the ground to prevent dragging the glyph
+        while(runtime.milliseconds()<300) {
+            bot.slideMotor.setPower(-.8);
+        }
+        bot.slideMotor.setPower(0);
+
+    }
+
     public void forward(double millisec) {
 
         runtime.reset();
@@ -364,21 +381,21 @@ public abstract class Processor extends LinearOpMode {
         sleep(700);
         while (count < numOfCol) {
 
-            bot.motorLF.setPower(.3);
-            bot.motorRF.setPower(.3);
-            bot.motorRB.setPower(-.3);
-            bot.motorLB.setPower(-.3);
+            bot.motorLF.setPower(.15);
+            bot.motorRF.setPower(.15);
+            bot.motorRB.setPower(-.15);
+            bot.motorLB.setPower(-.15);
 
             if (bot.colorSensor2.getDistance(DistanceUnit.CM)>5) {
                 count++;
 
-                if (numOfCol > count) {
+                if (numOfCol >= count) {
                     runtime.reset();
-                    while (bot.colorSensor2.getDistance(DistanceUnit.CM)>0) {
-                        bot.motorLF.setPower(.2);
-                        bot.motorRF.setPower(.2);
-                        bot.motorRB.setPower(-.2);
-                        bot.motorLB.setPower(-.2);
+                    while (bot.colorSensor2.getDistance(DistanceUnit.CM)>5) {
+                        bot.motorLF.setPower(.15);
+                        bot.motorRF.setPower(.15);
+                        bot.motorRB.setPower(-.15);
+                        bot.motorLB.setPower(-.15);
                     }
                 }
                 runtime.reset();
@@ -391,7 +408,7 @@ public abstract class Processor extends LinearOpMode {
 
         //bot.colorServo.setPosition(0);
 
-        goAngle(3,0);
+        goAngle(1.5,0);
         stopBotMotors();
     }
 
@@ -458,6 +475,7 @@ public abstract class Processor extends LinearOpMode {
             telemetry.update();
         }
         bot.colorServo.setPosition(.3);
+        sleep(500);
 
         goAngle(3,180);
         stopBotMotors();

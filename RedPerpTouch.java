@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 /**
  * Created by wolfie on 12/16/17.
  */
-@Autonomous(name = "RedPerpColorSensor2 " , group ="FROOg")
+@Autonomous(name = "RedparrelColorSensor2 " , group ="FROOg")
 
 public class RedPerpTouch extends Processor{
 
@@ -42,9 +42,15 @@ public class RedPerpTouch extends Processor{
 
         knockJewel(true);
 
-        //gotoColumnRight();
+        goAngle(15, 0);
 
-        turnHeading(0);
+
+        turnHeading(180);
+
+
+        gotoColumnLeft();
+
+
 
         stopBotMotors();
 

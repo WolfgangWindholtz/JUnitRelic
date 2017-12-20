@@ -45,7 +45,7 @@ public class Map {
 
     //DigitalChannel touchSensor;
 
-    DistanceSensor colorSensor2;
+    DistanceSensor colorSensor2 = null;
 
     int cameraMonitorViewId;
     VuforiaTrackables relicTrackables;
