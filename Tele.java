@@ -100,10 +100,9 @@ public class Tele extends OpMode{
 
 
         }
-        if(gamepad2.b)  //opens the right servo
+        if(gamepad2.x)  //opens the right servo
         {
-            realeaseGlyphBot();
-            gripGlyphTop();
+            resetGlpyhpos();
 
 
         }

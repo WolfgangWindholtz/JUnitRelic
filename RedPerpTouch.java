@@ -42,10 +42,15 @@ public class RedPerpTouch extends Processor{
 
         knockJewel(true);
 
-        goAngle(15, 0);
+        goAngle(25, 0);
 
 
         turnHeading(180);
+
+        goAngle(12,0);
+
+        turnHeading(180);
+
 
 
         gotoColumnLeft();

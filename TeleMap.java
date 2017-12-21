@@ -36,7 +36,7 @@ public class TeleMap {
 
 
 
-    ModernRoboticsI2cRangeSensor rangeSensor = null;
+    //ModernRoboticsI2cRangeSensor rangeSensor = null;
 
     ColorSensor colorSensor = null;
 
@@ -79,7 +79,7 @@ public class TeleMap {
 
         imu.initialize(parameters);
 
-        rangeSensor = hwMap.get(ModernRoboticsI2cRangeSensor.class,"rangeSensor");
+        //rangeSensor = hwMap.get(ModernRoboticsI2cRangeSensor.class,"rangeSensor");
         colorSensor = hwMap.get(ColorSensor.class,"colorSensor");
 
 

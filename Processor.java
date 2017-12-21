@@ -23,7 +23,7 @@ public abstract class Processor extends LinearOpMode {
     ElapsedTime runtime = new ElapsedTime();
     public final static double DEFAULT_POWER = .7;
     public final static int TICKSPERROTATION = 1120;
-    static final double P_TURN_COEFF = .15;
+    static final double P_TURN_COEFF = .1;
     public final static int DIAMETEROFWHEEL = 4;
     static final double TURN_SPEED = 0.3;
     static final double DRIVE_SPEED = 0.6;
@@ -104,17 +104,16 @@ public abstract class Processor extends LinearOpMode {
     public void turn(double target) {
         Orientation ref = bot.imu.getAngularOrientation();
 
-        double heading = ref.firstAngle;
+        double heading = firstAngle();
         double correction;
         double error;
 
         double angleWanted = target + heading;
 
-        ref = bot.imu.getAngularOrientation();
-        double speed = turning(ref.firstAngle, angleWanted);
+        double speed = turning(firstAngle(), angleWanted);
         while (speed != 0) {
             ref = bot.imu.getAngularOrientation();
-            speed = turning(ref.firstAngle, angleWanted);
+            speed = turning(firstAngle(), angleWanted);
             accelerate(speed);
             recordTelemetry(target, angleWanted, ref, speed);
         }
@@ -145,12 +144,12 @@ public abstract class Processor extends LinearOpMode {
     }
 
     public void recordTelemetry(double target, double angleWanted, Orientation ref, double speed) {
-        telemetry.addData("first angle", ref.firstAngle);
+        telemetry.addData("first angle", firstAngle());
         telemetry.addData("second angle", ref.secondAngle);
         telemetry.addData("third angle", ref.thirdAngle);
         telemetry.addData("target", target);
         telemetry.addData("speed ", speed);
-        telemetry.addData("error", angleWanted - ref.firstAngle);
+        telemetry.addData("error", angleWanted - firstAngle());
         telemetry.addData("angleWanted", angleWanted);
         telemetry.addData("motor power", bot.motorLF.getPower());
 
@@ -180,11 +179,10 @@ public abstract class Processor extends LinearOpMode {
     }
 
     public void grabGlyph(){
-        bot.glyphServo1.setPosition(0.);
-        bot.glyphServo2.setPosition(0.35);
         bot.glyphServo3.setPosition(.35);
         bot.glyphServo4.setPosition(.5);
-        sleep(1000);
+
+        sleep(700);
 
         runtime.reset();
 
@@ -193,6 +191,10 @@ public abstract class Processor extends LinearOpMode {
             bot.slideMotor.setPower(-.8);
         }
         bot.slideMotor.setPower(0);
+
+        bot.glyphServo1.setPosition(0.69);
+        bot.glyphServo2.setPosition(0.35);
+        sleep(700);
 
     }
 
@@ -257,7 +259,8 @@ public abstract class Processor extends LinearOpMode {
 
         // get close to the wall
 
-        while (bot.rangeSensor.getDistance(DistanceUnit.CM) > 20) {
+        while (bot.rangeSensor.getDistance(DistanceUnit.CM)>36) {
+
 
 
             bot.motorLF.setPower(-.3);
@@ -268,6 +271,21 @@ public abstract class Processor extends LinearOpMode {
 
             // clear the column so the same column is not counted three time
         }
+        stopBotMotors();
+
+        while (bot.rangeSensor.getDistance(DistanceUnit.CM)<36) {
+
+
+
+            bot.motorLF.setPower(.3);
+            bot.motorRF.setPower(-.3);
+            bot.motorRB.setPower(-.3);
+            bot.motorLB.setPower(.3);
+
+
+            // clear the column so the same column is not counted three time
+        }
+        stopBotMotors();
 
 
         goPulsesPrep(getColumnRight());
@@ -279,6 +297,35 @@ public abstract class Processor extends LinearOpMode {
     public void gotoColumnLeft() {
         // the direction approaching the cryptobox changes depending on the side
         enterEnc();
+
+        while (bot.rangeSensor.getDistance(DistanceUnit.CM)>35) {
+
+
+
+            bot.motorLF.setPower(-.3);
+            bot.motorRF.setPower(.3);
+            bot.motorRB.setPower(.3);
+            bot.motorLB.setPower(-.3);
+
+
+            // clear the column so the same column is not counted three time
+        }
+        stopBotMotors();
+
+        while (bot.rangeSensor.getDistance(DistanceUnit.CM)<35) {
+
+
+
+            bot.motorLF.setPower(.3);
+            bot.motorRF.setPower(-.3);
+            bot.motorRB.setPower(-.3);
+            bot.motorLB.setPower(.3);
+
+
+            // clear the column so the same column is not counted three time
+        }
+        stopBotMotors();
+
 
         goPulses(getColumnLeft());
 
@@ -404,9 +451,12 @@ public abstract class Processor extends LinearOpMode {
             telemetry.addData("count", count);
             telemetry.update();
         }
-        //sleep(700);
 
-        //bot.colorServo.setPosition(0);
+        stopBotMotors();
+
+        bot.colorServo.setPosition(0);
+        sleep(700);
+
 
         goAngle(1.5,0);
         stopBotMotors();
@@ -474,8 +524,10 @@ public abstract class Processor extends LinearOpMode {
             telemetry.addData("count", count);
             telemetry.update();
         }
-        bot.colorServo.setPosition(.3);
+        bot.colorServo.setPosition(0);
         sleep(500);
+        stopBotMotors();
+
 
         goAngle(3,180);
         stopBotMotors();
@@ -531,9 +583,13 @@ public abstract class Processor extends LinearOpMode {
 
         bot.glyphServo1.setPosition(0.4);
         bot.glyphServo2.setPosition(0.6);
+        sleep(500);
+        bot.glyphServo4.setPosition(0.35);
+        bot.glyphServo3.setPosition(0.5);
         sleep(1000);
 
-        goAnglePower(2, 90, .3);
+
+        goAnglePower(5, 90, .3);
 
 
         goAnglePower(9, -90, .5);
@@ -665,17 +721,15 @@ public abstract class Processor extends LinearOpMode {
     }
 
     public void turnHeading(double target) {
-        Orientation ref = bot.imu.getAngularOrientation();
 
         double angleWanted = target;
 
-        ref = bot.imu.getAngularOrientation();
-        double speed = turning(ref.firstAngle, angleWanted);
+        double speed = turning(firstAngle(), angleWanted);
         while (speed != 0) {
-            ref = bot.imu.getAngularOrientation();
-            speed = turning(ref.firstAngle, angleWanted);
+            Orientation angleAll = bot.imu.getAngularOrientation();
+            speed = turning(firstAngle(), angleWanted);
             accelerate(speed);
-            recordTelemetry(target, angleWanted, ref, speed);
+            recordTelemetry(target, angleWanted, angleAll, speed);
         }
         accelerate(0);
     }
@@ -688,14 +742,14 @@ public abstract class Processor extends LinearOpMode {
     }
 
     public void goRange( double distance) {
-        while (bot.rangeSensor.getDistance(DistanceUnit.INCH) < distance) {
+        /*while (bot.rangeSensor.getDistance(DistanceUnit.INCH) < distance) {
             telemetry.addData("dist", bot.rangeSensor.getDistance(DistanceUnit.INCH));
             telemetry.update();
             bot.motorRF.setPower(-0.2);
             bot.motorRB.setPower(0.2);
             bot.motorLB.setPower(0.2);
             bot.motorLF.setPower(-0.2);
-        }
+        }*/
     }
 
     public int getColumnLeft() {
@@ -745,9 +799,9 @@ public abstract class Processor extends LinearOpMode {
         }
         return ret;
     }
-    public float firstAngle(){
+    public double firstAngle(){
         Orientation angleAll = bot.imu.getAngularOrientation();
-        float x = angleAll.firstAngle;
+        double x =  (angleAll.firstAngle*.99);
         return x;
     }
 
