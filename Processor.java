@@ -259,33 +259,7 @@ public abstract class Processor extends LinearOpMode {
 
         // get close to the wall
 
-        while (bot.rangeSensor.getDistance(DistanceUnit.CM)>36) {
-
-
-
-            bot.motorLF.setPower(-.3);
-            bot.motorRF.setPower(.3);
-            bot.motorRB.setPower(.3);
-            bot.motorLB.setPower(-.3);
-
-
-            // clear the column so the same column is not counted three time
-        }
-        stopBotMotors();
-
-        while (bot.rangeSensor.getDistance(DistanceUnit.CM)<36) {
-
-
-
-            bot.motorLF.setPower(.3);
-            bot.motorRF.setPower(-.3);
-            bot.motorRB.setPower(-.3);
-            bot.motorLB.setPower(.3);
-
-
-            // clear the column so the same column is not counted three time
-        }
-        stopBotMotors();
+        goRange(34);
 
 
         goPulsesPrep(getColumnRight());
@@ -298,33 +272,7 @@ public abstract class Processor extends LinearOpMode {
         // the direction approaching the cryptobox changes depending on the side
         enterEnc();
 
-        while (bot.rangeSensor.getDistance(DistanceUnit.CM)>35) {
-
-
-
-            bot.motorLF.setPower(-.3);
-            bot.motorRF.setPower(.3);
-            bot.motorRB.setPower(.3);
-            bot.motorLB.setPower(-.3);
-
-
-            // clear the column so the same column is not counted three time
-        }
-        stopBotMotors();
-
-        while (bot.rangeSensor.getDistance(DistanceUnit.CM)<35) {
-
-
-
-            bot.motorLF.setPower(.3);
-            bot.motorRF.setPower(-.3);
-            bot.motorRB.setPower(-.3);
-            bot.motorLB.setPower(.3);
-
-
-            // clear the column so the same column is not counted three time
-        }
-        stopBotMotors();
+        goRange(34);
 
 
         goPulses(getColumnLeft());
@@ -334,47 +282,7 @@ public abstract class Processor extends LinearOpMode {
 
 
 
-   /* public void gotoLefttouch() {
-        // the direction approaching the cryptobox changes depending on the side
-        enterEnc();
 
-        while (bot.rangeSensor.getDistance(DistanceUnit.CM) > 30) {
-
-
-            bot.motorLF.setPower(-.3);
-            bot.motorRF.setPower(.3);
-            bot.motorRB.setPower(.3);
-            bot.motorLB.setPower(-.3);
-
-
-            // clear the column so the same column is not counted three time
-        }
-
-        goTOUCh(getColumnLeft());
-
-        stopBotMotors();
-    }
-
-    public void gotoRighttouch() {
-        // the direction approaching the cryptobox changes depending on the side
-        enterEnc();
-
-        while (bot.rangeSensor.getDistance(DistanceUnit.CM) > 30) {
-
-
-            bot.motorLF.setPower(-.3);
-            bot.motorRF.setPower(.3);
-            bot.motorRB.setPower(.3);
-            bot.motorLB.setPower(-.3);
-
-
-            // clear the column so the same column is not counted three time
-        }
-
-        goTOUCh(getColumnRight());
-
-        stopBotMotors();
-    }*/
 
     public void gotoColumnRightEnc() {
         enterEnc();
@@ -382,19 +290,8 @@ public abstract class Processor extends LinearOpMode {
 
         // get close to the wall
 
-        while (bot.rangeSensor.getDistance(DistanceUnit.CM)>35) {
 
-
-
-            bot.motorLF.setPower(-.3);
-            bot.motorRF.setPower(.3);
-            bot.motorRB.setPower(.3);
-            bot.motorLB.setPower(-.3);
-
-
-            // clear the column so the same column is not counted three time
-        }
-
+        goRange(34);
 
        goColumPrep(getColumnRight());
 
@@ -404,17 +301,7 @@ public abstract class Processor extends LinearOpMode {
         // the direction approaching the cryptobox changes depending on the side
         enterEnc();
 
-        //while (bot.rangeSensor.getDistance(DistanceUnit.CM)>35) {
-
-
-            /*bot.motorLF.setPower(-.3);
-            bot.motorRF.setPower(.3);
-            bot.motorRB.setPower(.3);
-            bot.motorLB.setPower(-.3);*/
-
-
-            // clear the column so the same column is not counted three time
-        //}
+        goRange(34);
 
         goColums(getColumnLeft());
 
@@ -428,10 +315,10 @@ public abstract class Processor extends LinearOpMode {
         sleep(700);
         while (count < numOfCol) {
 
-            bot.motorLF.setPower(.15);
-            bot.motorRF.setPower(.15);
-            bot.motorRB.setPower(-.15);
-            bot.motorLB.setPower(-.15);
+            bot.motorLF.setPower(.3);
+            bot.motorRF.setPower(.3);
+            bot.motorRB.setPower(-.3);
+            bot.motorLB.setPower(-.3);
 
             if (bot.colorSensor2.getDistance(DistanceUnit.CM)>5) {
                 count++;
@@ -439,10 +326,10 @@ public abstract class Processor extends LinearOpMode {
                 if (numOfCol >= count) {
                     runtime.reset();
                     while (bot.colorSensor2.getDistance(DistanceUnit.CM)>5) {
-                        bot.motorLF.setPower(.15);
-                        bot.motorRF.setPower(.15);
-                        bot.motorRB.setPower(-.15);
-                        bot.motorLB.setPower(-.15);
+                        bot.motorLF.setPower(.3);
+                        bot.motorRF.setPower(.3);
+                        bot.motorRB.setPower(-.3);
+                        bot.motorLB.setPower(-.3);
                     }
                 }
                 runtime.reset();
@@ -458,7 +345,7 @@ public abstract class Processor extends LinearOpMode {
         sleep(700);
 
 
-        goAngle(1.5,0);
+        goAngle(2.75,0);
         stopBotMotors();
     }
 
@@ -734,22 +621,27 @@ public abstract class Processor extends LinearOpMode {
         accelerate(0);
     }
 
-    public void goRangeCol() {
 
-        int count = getColumnRight();
-        double distance = getDistanceColumn(count);
-        goRange(distance);
-    }
 
     public void goRange( double distance) {
-        /*while (bot.rangeSensor.getDistance(DistanceUnit.INCH) < distance) {
+        while (bot.rangeSensor.getDistance(DistanceUnit.INCH) > distance) {
             telemetry.addData("dist", bot.rangeSensor.getDistance(DistanceUnit.INCH));
             telemetry.update();
             bot.motorRF.setPower(-0.2);
             bot.motorRB.setPower(0.2);
             bot.motorLB.setPower(0.2);
             bot.motorLF.setPower(-0.2);
-        }*/
+        }
+        stopBotMotors();
+        while (bot.rangeSensor.getDistance(DistanceUnit.INCH) < distance) {
+            telemetry.addData("dist", bot.rangeSensor.getDistance(DistanceUnit.INCH));
+            telemetry.update();
+            bot.motorRF.setPower(0.2);
+            bot.motorRB.setPower(-0.2);
+            bot.motorLB.setPower(-0.2);
+            bot.motorLF.setPower(0.2);
+        }
+        stopBotMotors();
     }
 
     public int getColumnLeft() {
