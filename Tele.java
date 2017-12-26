@@ -41,8 +41,9 @@ public class Tele extends OpMode{
 
         //takes the joystick values and converts to motor speeds through holonomic calculations
         readGamePad();
-        double mag = Math.sqrt(ypow * ypow + xpow * xpow);
-        double theta = Math.atan2(ypow, xpow);
+
+        double mag = ypow * ypow + xpow * xpow;
+        double theta = Math.round(Math.atan2(ypow, xpow) * 4.0 / Math.PI) * Math.PI / 4.0;
         double aPair = mag * Math.cos(theta - Math.PI/4);
         double bPair = mag * Math.sin(theta - Math.PI/4);
 
@@ -91,21 +92,18 @@ public class Tele extends OpMode{
         }
         if(gamepad2.y) //releases the glyph from the servos
         {
+            ram();
         }
 
         if(gamepad2.b)  //opens the right servo
         {
             realeaseGlyphBot();
             realeaseGlyphTop();
-
-
         }
-        if(gamepad2.x)  //opens the right servo
-        {
+        if(gamepad2.x){
             resetGlpyhpos();
-
-
         }
+
 
 
 
@@ -152,24 +150,24 @@ public class Tele extends OpMode{
     }
     public void gripGlyphBot() {
         bot.glyphServo1.setPosition(0.69);
-        bot.glyphServo2.setPosition(0.35);
+        bot.glyphServo2.setPosition(0.27);
     }
     public void gripGlyphTop()
     {
-        bot.glyphServo3.setPosition(0.35);
+        bot.glyphServo3.setPosition(0.15);
         bot.glyphServo4.setPosition(0.5);
     }
 
     public void openRightBot() {
-        bot.glyphServo1.setPosition(0.53);
+        bot.glyphServo1.setPosition(0.39);
     }
 
     public void openLeftBot() {
-        bot.glyphServo2.setPosition(0.5);
+        bot.glyphServo2.setPosition(0.57);
 
     }
     public void openRightTop() {
-        bot.glyphServo3.setPosition(0.5);
+        bot.glyphServo3.setPosition(.33);
     }
 
     public void openLeftTop() {
@@ -189,6 +187,13 @@ public class Tele extends OpMode{
     {
         openLeftTop();
         openRightTop();
+    }
+    public void ram()
+    {
+        bot.glyphServo1.setPosition(.28);
+        bot.glyphServo2.setPosition(.67);
+        bot.glyphServo3.setPosition(.7);
+        bot.glyphServo4.setPosition(.18);
     }
 
     public void resetGlpyhpos(){

@@ -42,7 +42,7 @@ public class RedPerpRangeBased extends Processor{
 
         knockJewel(true);
 
-        goRangeCol();
+        //goRangeCol();
 
         turnHeading(0);
 

@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
+import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
@@ -43,7 +44,8 @@ public class Map {
 
     ColorSensor colorSensor = null;
 
-    //DigitalChannel touchSensor;
+    AnalogInput ultraSonic1;
+    AnalogInput ultraSonic2;
 
     DistanceSensor colorSensor2 = null;
 
@@ -87,6 +89,8 @@ public class Map {
         colorServo = hwMap.servo.get("colorServo");
 
 
+
+
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
@@ -100,9 +104,9 @@ public class Map {
         rangeSensor = hwMap.get(ModernRoboticsI2cRangeSensor.class, "rangeSensor");
         colorSensor = hwMap.get(ColorSensor.class, "colorSensor");
         colorSensor2 = hwMap.get(DistanceSensor.class, "colorSensor2");
+        //ultraSonic1 = hwMap.get(AnalogInput.class,"ultraSonic1");
+        //ultraSonic2 = hwMap.get(AnalogInput.class,"ultraSonic2");
 
-        //touchSensor = hwMap.get(DigitalChannel.class, "touchSensor");
-        //touchSensor.setMode(DigitalChannel.Mode.INPUT);
 
 
         cameraMonitorViewId = hwMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hwMap.appContext.getPackageName());

@@ -19,29 +19,16 @@ public class RedParallel extends Processor{
         waitForStart();
         checkVu();
         checkCol();
-        bot.glyphServo3.setPosition(.35);
-        bot.glyphServo4.setPosition(.5);
 
-        sleep(1500);
 
-        runtime.reset();
-
-        //raises the Rev slides to pick the glyph off the ground to prevent dragging the glyph
-        while(runtime.milliseconds()<300) {
-            bot.slideMotor.setPower(-.8);
-        }
-        bot.slideMotor.setPower(0);
-
-        bot.glyphServo1.setPosition(0.69);
-        bot.glyphServo2.setPosition(0.35);
-        sleep(700);
-
+        grabGlyph();
         //knocks the correct jewel off according to our alliance color
         knockJewel(true);
 
         goAngle(20,0);
         sleep(1000);
-        turnHeading(-180);
+        turn(-180);
+        turnHeading(180);
 
         sleep(1000);
 

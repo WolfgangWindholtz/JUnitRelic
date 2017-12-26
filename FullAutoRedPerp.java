@@ -25,17 +25,10 @@ public class  FullAutoRedPerp extends Processor{
         checkVu();
 
         //sets servo to grab the glyph touching the robot at the start of autonomous
-        bot.glyphServo1.setPosition(0.69);
-        bot.glyphServo2.setPosition(0.35);
-        sleep(1000);
-
-        runtime.reset();
+        grabGlyph();
 
         //raises the Rev slides to pick the glyph off the ground to prevent dragging the glyph
-        while(runtime.milliseconds()<300) {
-            bot.slideMotor.setPower(-.8);
-        }
-        bot.slideMotor.setPower(0);
+
 
         //knocks the correct jewel off according to our alliance color
         knockJewel(true);
