@@ -25,7 +25,7 @@ public class RedParallel extends Processor{
         //knocks the correct jewel off according to our alliance color
         knockJewel(true);
 
-        goAngle(20,0);
+        goStay(20,0);
         sleep(1000);
         turn(-180);
         turnHeading(180);

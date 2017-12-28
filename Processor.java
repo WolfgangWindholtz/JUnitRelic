@@ -25,7 +25,7 @@ public abstract class Processor extends LinearOpMode {
     public final static int TICKSPERROTATION = 1120;
     static final double P_TURN_COEFF = .1;
     public final static int DIAMETEROFWHEEL = 4;
-    static final double TURN_SPEED = 0.3;
+    static final double TURN_SPEED = 0.4;
     static final double DRIVE_SPEED = 0.6;
     static final double HEADING_THRESHOLD = 2;
     static final double OMNI_WHEEL_CIRCUMFERENCE = 4 * Math.PI;
@@ -102,7 +102,7 @@ public abstract class Processor extends LinearOpMode {
     }
 
     public void turn(double target) {
-        Orientation ref = bot.imu.getAngularOrientation();
+        Orientation ref;
 
         double heading = firstAngle();
         double correction;
@@ -179,8 +179,8 @@ public abstract class Processor extends LinearOpMode {
     }
 
     public void grabGlyph(){
-        bot.glyphServo3.setPosition(.35);
-        bot.glyphServo4.setPosition(.5);
+        bot.glyphServo3.setPosition(.08);
+        bot.glyphServo4.setPosition(1);
 
         sleep(700);
 
@@ -193,7 +193,7 @@ public abstract class Processor extends LinearOpMode {
         bot.slideMotor.setPower(0);
 
         bot.glyphServo1.setPosition(0.69);
-        bot.glyphServo2.setPosition(0.35);
+        bot.glyphServo2.setPosition(0.27);
         sleep(700);
 
     }
@@ -349,7 +349,11 @@ public abstract class Processor extends LinearOpMode {
         stopBotMotors();
     }
 
-
+    public void goStay(double distance,double angle){
+        double ang = firstAngle();
+        goAngle(distance,angle);
+        turnHeading(ang);
+    }
 
     public void goPulsesPrep(int numOfCol) {
         int count = 0;
@@ -593,7 +597,19 @@ public abstract class Processor extends LinearOpMode {
 
 
     public void goRange( double distance) {
-        while (bot.rangeSensor.getDistance(DistanceUnit.INCH) < distance) {
+        //move backwards
+        moveBackwards(distance);
+        stopBotMotors();
+        //move forward
+        moveForward(distance);
+        stopBotMotors();
+        moveBackwards(distance);
+        stopBotMotors();
+
+    }
+
+    public void moveForward(double distance) {
+        while (bot.rangeSensor.getDistance(DistanceUnit.CM) > distance) {
             telemetry.addData("dist", bot.rangeSensor.getDistance(DistanceUnit.CM));
             telemetry.update();
             bot.motorRF.setPower(0.2);
@@ -601,8 +617,10 @@ public abstract class Processor extends LinearOpMode {
             bot.motorLB.setPower(-0.2);
             bot.motorLF.setPower(-0.2);
         }
-        stopBotMotors();
-        while (bot.rangeSensor.getDistance(DistanceUnit.INCH) > distance) {
+    }
+
+    public void moveBackwards(double distance) {
+        while (bot.rangeSensor.getDistance(DistanceUnit.CM) < distance) {
             telemetry.addData("dist", bot.rangeSensor.getDistance(DistanceUnit.CM));
             telemetry.update();
             bot.motorRF.setPower(-0.2);
@@ -610,17 +628,6 @@ public abstract class Processor extends LinearOpMode {
             bot.motorLB.setPower(0.2);
             bot.motorLF.setPower(0.2);
         }
-        stopBotMotors();
-        while (bot.rangeSensor.getDistance(DistanceUnit.INCH) <  distance) {
-            telemetry.addData("dist", bot.rangeSensor.getDistance(DistanceUnit.CM));
-            telemetry.update();
-            bot.motorRF.setPower(0.2);
-            bot.motorRB.setPower(0.2);
-            bot.motorLB.setPower(-0.2);
-            bot.motorLF.setPower(-0.2);
-        }
-        stopBotMotors();
-
     }
 
     public int getColumnLeft() {
