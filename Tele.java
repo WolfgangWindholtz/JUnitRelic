@@ -4,20 +4,6 @@ import android.graphics.Path;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
-
-import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
-import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
-
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 @TeleOp(name = "XTele", group = "X")
 public class Tele extends OpMode{
@@ -72,9 +58,9 @@ public class Tele extends OpMode{
         bot.motorLB.setPower(.8*(aPair-toggle(toggle,zpow)));
 
         //assings the joystick value to another variable
-        double slidePower = gamepad2.left_stick_y;
+        double slidePower = -gamepad2.left_stick_y;
 
-        if(slidePower<0)
+        if(slidePower>0)
         {
             //scales the slidepower to move at a quarter speed
             slidePower /= 4;
@@ -115,13 +101,13 @@ public class Tele extends OpMode{
         {
             bot.glyphServo1.setPosition(.53);
             bot.glyphServo2.setPosition(.42);
-            releaseGlyphTop();
+            realeaseGlyphTop();
         }
         if(gamepad2.x){
             resetGlpyhpos();
         }
         if(gamepad2.a){
-            releaseGlyphTop();
+            realeaseGlyphTop();
         }
 
 
@@ -154,11 +140,11 @@ public class Tele extends OpMode{
     }
 
     public void fingersOpen(){
-        bot.relicFingers.setPosition(1);
+        bot.relicFingers.setPosition(0);
     }
 
     public void fingersClose(){
-        bot.relicFingers.setPosition(0);
+        bot.relicFingers.setPosition(1);
     }
 
     public void wristUp() {
@@ -168,14 +154,13 @@ public class Tele extends OpMode{
     public void wristDown() {
         bot.relicWrist.setPosition(1);
     }
-
     public void gripGlyphBot() {
         bot.glyphServo1.setPosition(0.69);
         bot.glyphServo2.setPosition(0.27);
     }
     public void gripGlyphTop()
     {
-        bot.glyphServo3.setPosition(.08);
+        bot.glyphServo3.setPosition(0.08);
         bot.glyphServo4.setPosition(1);
     }
 
@@ -188,18 +173,23 @@ public class Tele extends OpMode{
 
     }
     public void openRightTop() {
-        bot.glyphServo3.setPosition(.2);
+        bot.glyphServo3.setPosition(.35);
     }
 
     public void openLeftTop() {
         bot.glyphServo4.setPosition(0.4);
 
     }
-    public void releaseGlyphBot() {
+    public void closeJewel()
+    {
+        bot.jewelServo.setPosition(0.2);
+    }
+
+    public void realeaseGlyphBot() {
         openLeftBot();
         openRightBot();
     }
-    public void releaseGlyphTop()
+    public void realeaseGlyphTop()
     {
         openLeftTop();
         openRightTop();
@@ -213,7 +203,7 @@ public class Tele extends OpMode{
     }
 
     public void resetGlpyhpos(){
-        releaseGlyphBot();
+        realeaseGlyphBot();
         gripGlyphTop();
     }
 

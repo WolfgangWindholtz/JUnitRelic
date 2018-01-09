@@ -3,11 +3,9 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-/**
- * Created by Sushr on 12/15/2017.
- */
-@Autonomous(name = "redParallel", group = "fjfrjkdk")
-public class RedParallel extends Processor{
+
+//@Autonomous(name = "BlueParallel", group = "fjfrjkdk")
+public class BlueParallel extends Processor{
 
     int count = 0;
     boolean touch = false;
@@ -19,34 +17,32 @@ public class RedParallel extends Processor{
         waitForStart();
         checkVu();
         checkCol();
-
         grabGlyph();
 
-        //knocks the correct jewel off according to our alliance color
-        knockJewel(true);
+        //knocks the correct jewel off according to our alliance colo
 
-        goAngle(20,0);
+        //knocks the correct jewel off according to our alliance color
+        knockJewel(false);
+
+        goAngle(20,190);
         sleep(500);
         align(0);
+
         turn(-180);
-        align(180);
-        sleep(500);
+        align(177);
+        sleep(750);
+        goAngle(1,180);
         raiseColorServo();
 
+        goRangeLeft(13.2);
 
-        goRangeRight(13.2);
+        gotoColumnRight();
 
-        gotoColumnLeft();
-
-
+        stopBotMotors();
 
         lowerColorServo();
         align(180);
-
         score(180);
-
-        sleep(500);
-
         stopBotMotors();
     }
 }

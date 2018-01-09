@@ -44,8 +44,8 @@ public class Map {
 
     ColorSensor colorSensor = null;
 
-    AnalogInput ultraSonic1;
-    AnalogInput ultraSonic2;
+    AnalogInput ultrasonicLeft;
+    AnalogInput ultrasonic2;
 
     DistanceSensor colorSensor2 = null;
 
@@ -104,7 +104,7 @@ public class Map {
         rangeSensor = hwMap.get(ModernRoboticsI2cRangeSensor.class, "rangeSensor");
         colorSensor = hwMap.get(ColorSensor.class, "colorSensor");
         colorSensor2 = hwMap.get(DistanceSensor.class, "colorSensor2");
-        //ultraSonic1 = hwMap.get(AnalogInput.class,"ultraSonic1");
+        ultrasonicLeft = hwMap.get(AnalogInput.class,"ultraSonicLeft");
         //ultraSonic2 = hwMap.get(AnalogInput.class,"ultraSonic2");
 
 
@@ -135,7 +135,7 @@ public class Map {
 
         slideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        jewelServo.setPosition(.2);
+        jewelServo.setPosition(.15);
 
 
         //glyphServo1.setPosition(0.4);

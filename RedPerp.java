@@ -15,27 +15,40 @@ public class RedPerp extends Processor{
     @Override
     public void runOpMode() throws InterruptedException {
         bot.init(hardwareMap);
-
         waitForStart();
+        //bot.x = angularOffset();
         checkVu();
         checkCol();
         grabGlyph();
+
         //knocks the correct jewel off according to our alliance color
         knockJewel(true);
 
-        goAngle(20,0);
-        sleep(1000);
-        turnHeading(-90);
+        goAngle(20, 0);
+        sleep(500);
+        align(0);
+        turn(-90);
+        sleep(500);
 
-        sleep(1000);
+        align(-90);
+        sleep(500);
 
+        raiseColorServo();
+
+        goRangeRight(13.2);
+        align(-90);
 
         gotoColumnLeft();
 
         stopBotMotors();
-        sleep(1000);
+
+        lowerColorServo();
+
+        align(-90);
+        sleep(500);
 
         //releases the glyph and pushes the glyph into the cryptobox
-        score();
+        score(-90);
+        stopBotMotors();
     }
 }
